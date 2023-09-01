@@ -18,15 +18,15 @@ export interface Room extends Document {
   description: string;
   address: string;
   guestCapacity: number;
-  noOfBeds: number;
+  numOfBeds: number;
   internet: boolean;
   breakfast: boolean;
-  airCondition: boolean;
+  airConditioned: boolean;
   petsAllowed: boolean;
   roomCleaning: boolean;
   ratings: number;
   numberOfReviews: number;
-  category?: "single" | "twins" | "king";
+  category?: "Single" | "Twins" | "King";
   user: Schema.Types.ObjectId;
   reviews: RoomReview[];
   images: RoomImage[];

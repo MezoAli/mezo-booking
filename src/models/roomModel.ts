@@ -18,7 +18,6 @@ const roomSchema = new mongoose.Schema(
       type: String,
       require: [true, "Please Enter A Room Description"],
       trim: true,
-      maxLength: [300, "Room Name can't be more than 300 characters"],
     },
     address: {
       type: String,
@@ -30,7 +29,7 @@ const roomSchema = new mongoose.Schema(
       require: [true, "Please Enter A Guest Capacity"],
       trim: true,
     },
-    noOfBeds: {
+    numOfBeds: {
       type: Number,
       require: [true, "Please Enter Number Of Beds"],
       trim: true,
@@ -43,7 +42,7 @@ const roomSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    airCondition: {
+    airConditioned: {
       type: Boolean,
       default: false,
     },
@@ -65,12 +64,12 @@ const roomSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["single", "twins", "king"],
+      enum: ["Single", "Twins", "King"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      require: true,
+      require: false,
     },
     reviews: [
       {
