@@ -18,6 +18,10 @@ export async function GET(
     const room = await Room.findById(roomId);
     if (!room) {
       throw new Error("can't find room");
+      // return NextResponse.json(
+      //   { message: "can't find room with that ID" },
+      //   { status: 404 }
+      // );
     }
     return NextResponse.json(
       { message: "get room successfully", room },
@@ -52,6 +56,7 @@ export async function PATCH(
     const reqBody = await req.json();
     const room = await Room.findByIdAndUpdate(roomId, reqBody, {
       new: true,
+      runValidators: true,
     });
 
     return NextResponse.json(

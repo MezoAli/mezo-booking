@@ -6,9 +6,24 @@ connectDB();
 
 export async function GET(req: NextRequest) {
   try {
-    const rooms = await Room.find();
+    const { searchParams } = new URL(req.url);
+
+    const location = searchParams.get("location");
+    const category = searchParams.get("category");
+
+    const searchFilter: any = {};
+
+    if (location) {
+      searchFilter.address = { $regex: location, $options: "i" };
+    }
+
+    if (category) {
+      searchFilter.category = { $regex: category, $options: "i" };
+    }
+
+    const rooms = await Room.find(searchFilter);
     return NextResponse.json(
-      { message: "Get Rooms Successfully", rooms },
+      { message: "Get Rooms Successfully", rooms, count: rooms?.length },
       { status: 200 }
     );
   } catch (error: any) {
