@@ -14,13 +14,11 @@ const RoomCard = ({ room }: RoomCardProps) => {
         height={150}
         alt="downtown"
         className="rounded-sm w-full h-[200px]"
-        src="https://a0.muscache.com/im/pictures/4599de32-549f-4125-8c93-ef99ce5b4cb0.jpg?im_w=720"
+        src={room.images[0]?.url}
       />
 
       <div className="flex flex-col gap-2">
-        <h5 className="text-xl">
-          <Link href={`/rooms/`}>{room?.name}</Link>
-        </h5>
+        <h5 className="text-xl">{room?.name}</h5>
         <p className="text-md">
           <b>${room?.pricePerNight}</b> / night
         </p>
@@ -29,7 +27,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
 
         <Link
           className="bg-blue-400 rounded-md px-3 py-2 w-full text-center"
-          href="#"
+          href={`/rooms/${room._id}`}
         >
           View Details
         </Link>

@@ -9,7 +9,7 @@ const nextConfig = {
     serverComponentsExternalPackages: ["mongoose"],
   },
   images: {
-    domains: ["a0.muscache.com"],
+    domains: ["a0.muscache.com", "res.cloudinary.com"],
   },
 };
 

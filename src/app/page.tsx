@@ -1,6 +1,6 @@
 import { Room } from "@/types/roomTypes";
-import PaddingContainer from "./components/PaddingContainer";
-import RoomCard from "./components/RoomCard";
+import PaddingContainer from "../components/PaddingContainer";
+import RoomCard from "../components/RoomCard";
 
 const getAllRooms = async () => {
   try {
