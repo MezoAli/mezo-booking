@@ -8,6 +8,9 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["mongoose"],
   },
+  images: {
+    domains: ["a0.muscache.com"],
+  },
 };
 
 module.exports = nextConfig;
