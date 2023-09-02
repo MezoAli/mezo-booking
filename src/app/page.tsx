@@ -4,7 +4,7 @@ import RoomCard from "../components/RoomCard";
 
 const getAllRooms = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/rooms");
+    const response = await fetch(`${process.env.SITE_URL}/api/rooms`);
     const data = await response.json();
     return data;
   } catch (error) {
