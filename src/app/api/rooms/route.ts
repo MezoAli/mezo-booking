@@ -10,6 +10,10 @@ export async function GET(req: NextRequest) {
 
     const location = searchParams.get("location");
     const category = searchParams.get("category");
+    const page = searchParams.get("page");
+    const CurrentPageNumber = Number(page) || 1;
+    const roomsPerPage = 4;
+    const skip = roomsPerPage * (CurrentPageNumber - 1);
 
     const searchFilter: any = {};
 
@@ -21,9 +25,20 @@ export async function GET(req: NextRequest) {
       searchFilter.category = { $regex: category, $options: "i" };
     }
 
-    const rooms = await Room.find(searchFilter);
+    const totalRoomsCount = await Room.countDocuments();
+
+    const rooms = await Room.find(searchFilter).limit(roomsPerPage).skip(skip);
+
+    const filteredRoomsCount = rooms?.length;
+
     return NextResponse.json(
-      { message: "Get Rooms Successfully", rooms, count: rooms?.length },
+      {
+        message: "Get Rooms Successfully",
+        rooms,
+        totalRoomsCount,
+        filteredRoomsCount,
+        roomsPerPage,
+      },
       { status: 200 }
     );
   } catch (error: any) {
