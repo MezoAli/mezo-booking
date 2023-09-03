@@ -1,3 +1,4 @@
+import RoomDetails from "@/components/RoomDetails";
 import { Room } from "@/types/roomTypes";
 import { notFound } from "next/navigation";
 
@@ -47,12 +48,7 @@ const RoomPage = async ({ params: { roomId } }: RoomPageProps) => {
     notFound();
   }
 
-  return (
-    <div>
-      <p>room Id {roomId}</p>
-      <p>Room Title : {room.name}</p>
-    </div>
-  );
+  return <RoomDetails room={room} />;
 };
 
 export default RoomPage;

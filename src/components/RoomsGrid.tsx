@@ -24,7 +24,12 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
     );
   }, [data]);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      {data?.rooms?.length === 0 && (
+        <div className="text-center text-3xl text-red-600">
+          <p>No Rooms Found</p>
+        </div>
+      )}
       {data.rooms?.map((room: any) => {
         return <RoomCard key={room._id} room={room} />;
       })}
