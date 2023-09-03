@@ -31,3 +31,10 @@ export interface Room extends Document {
   reviews: RoomReview[];
   images: RoomImage[];
 }
+
+export interface Rooms {
+  rooms: Room[] | undefined;
+  totalRoomsCount: number;
+  filteredRoomsCount: number;
+  roomsPerPage: number;
+}

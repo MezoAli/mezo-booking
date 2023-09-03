@@ -1,10 +1,14 @@
-import { Room } from "@/types/roomTypes";
+import RoomsGrid from "@/components/RoomsGrid";
 import PaddingContainer from "../components/PaddingContainer";
-import RoomCard from "../components/RoomCard";
 
 const getAllRooms = async () => {
   try {
-    const response = await fetch(`${process.env.SITE_URL}/api/rooms`);
+    const response = await fetch(`${process.env.SITE_URL}/api/rooms`, {
+      next: {
+        revalidate: 120,
+        tags: ["rooms"],
+      },
+    });
     const data = await response.json();
     return data;
   } catch (error) {
@@ -13,15 +17,12 @@ const getAllRooms = async () => {
 };
 
 export default async function Home() {
-  const { rooms } = await getAllRooms();
+  const data = await getAllRooms();
+  console.log(data);
 
   return (
     <PaddingContainer>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {rooms?.map((room: any) => {
-          return <RoomCard key={room._id} room={room} />;
-        })}
-      </div>
+      <RoomsGrid data={data} />
     </PaddingContainer>
   );
 }

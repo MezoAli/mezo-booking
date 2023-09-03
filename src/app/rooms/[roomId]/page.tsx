@@ -1,4 +1,5 @@
 import { Room } from "@/types/roomTypes";
+import { notFound } from "next/navigation";
 
 interface RoomPageProps {
   params: {
@@ -17,7 +18,12 @@ const getRoomData = async (roomId: string) => {
 };
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.SITE_URL}/api/rooms`);
+  const response = await fetch(`${process.env.SITE_URL}/api/rooms`, {
+    next: {
+      revalidate: 120,
+      tags: ["room"],
+    },
+  });
   const data = await response.json();
   return data?.rooms?.map((room: Room) => ({
     roomId: room?._id,
@@ -34,10 +40,19 @@ export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
 }
 
 const RoomPage = async ({ params: { roomId } }: RoomPageProps) => {
-  const room = await getRoomData(roomId);
+  const roomData = await getRoomData(roomId);
+  const room: Room = roomData.room;
   console.log(room);
+  if (!room) {
+    notFound();
+  }
 
-  return <div>room Id {roomId}</div>;
+  return (
+    <div>
+      <p>room Id {roomId}</p>
+      <p>Room Title : {room.name}</p>
+    </div>
+  );
 };
 
 export default RoomPage;

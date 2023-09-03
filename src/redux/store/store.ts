@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import roomsReducer from "../slices/roomsSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    rooms: roomsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
