@@ -17,8 +17,6 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   const router = useRouter();
   const pageNumber = Number(page) || 1;
   const dispatch = useAppDispatch();
-  const roomsData = useAppSelector((state) => state.rooms);
-  console.log("data from redux : ", roomsData);
   useEffect(() => {
     dispatch(
       addAllRooms({

@@ -12,8 +12,6 @@ interface RoomDetailsProps {
 }
 
 const RoomDetails = ({ room }: RoomDetailsProps) => {
-  console.log(room);
-
   return (
     <PaddingContainer>
       <div className="flex flex-col gap-4 my-5 justify-start items-start">

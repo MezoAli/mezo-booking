@@ -2,19 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-ul {
+.pagination {
   display: flex;
   gap: 20px;
   justify-content: center;
   align-items: center;
 }
 
-li {
+.pagination > li {
   border: 1px solid black;
   padding: 10px;
 }
 
-li.active {
+.pagination > li.active {
   background-color: blue;
   color: white;
 }
