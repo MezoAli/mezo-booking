@@ -6,14 +6,18 @@ import { toast } from "react-toastify";
 
 const SearchPage = () => {
   const [location, setLocation] = useState("");
+  const [category, setCategory] = useState("");
   const router = useRouter();
+  console.log(category);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (location.trim() === "") {
-      toast.error("Please enter valid inputs");
+      toast.error("Please enter valid inputs for location");
+    } else if (category === "") {
+      toast.error("Please select category");
     } else {
-      router.push(`/?location=${location}`);
+      router.push(`/?location=${location}&category=${category}`);
     }
   };
   return (
@@ -34,8 +38,25 @@ const SearchPage = () => {
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="border border-blue-400 px-3 py-2 focus:outline-none focus:border-blue-600 rounded-md mx-5"
+              className="border w-full text-[#EC194E] border-blue-400 px-3 py-2 focus:outline-none focus:border-blue-600 rounded-md mx-5"
             />
+          </div>
+          <div className="flex justify-between items-center w-full">
+            <label htmlFor="category" className="text-lg font-semibold">
+              Category
+            </label>
+            <select
+              onChange={(e) => setCategory(e.target.value)}
+              defaultValue="Select Option"
+              className="border w-full text-[#EC194E] border-blue-400 px-3 py-2 focus:outline-none focus:border-blue-600 rounded-md mx-5"
+            >
+              <option value="Select Option" disabled>
+                Select Option
+              </option>
+              <option value="Single">Single</option>
+              <option value="Twins">Twins</option>
+              <option value="King">King</option>
+            </select>
           </div>
           <button
             type="submit"

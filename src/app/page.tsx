@@ -7,13 +7,18 @@ interface HomePageProps {
   searchParams: {
     page: string;
     location?: string;
+    category?: string;
   };
 }
 
-const getAllRooms = async (pageNum: string = "1", location: string = "") => {
+const getAllRooms = async (
+  pageNum: string = "1",
+  location: string = "",
+  category: string = ""
+) => {
   try {
     const response = await fetch(
-      `${process.env.SITE_URL}/api/rooms?page=${pageNum}&location=${location}`,
+      `${process.env.SITE_URL}/api/rooms?page=${pageNum}&location=${location}&category=${category}`,
       {
         next: {
           revalidate: 120,
@@ -31,7 +36,11 @@ const getAllRooms = async (pageNum: string = "1", location: string = "") => {
 export default async function Home({ params, searchParams }: HomePageProps) {
   console.log(searchParams);
 
-  const data = await getAllRooms(searchParams.page, searchParams.location);
+  const data = await getAllRooms(
+    searchParams.page,
+    searchParams.location,
+    searchParams.category
+  );
 
   return (
     <PaddingContainer>
