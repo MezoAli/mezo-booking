@@ -45,7 +45,13 @@ export default async function Home({ params, searchParams }: HomePageProps) {
   return (
     <PaddingContainer>
       <div className="flex justify-between items-center text-2xl my-6">
-        <h3 className="font-semibold">All Rooms</h3>
+        {searchParams.location ? (
+          <h3 className="font-semibold">
+            All Rooms in {searchParams.location}
+          </h3>
+        ) : (
+          <h3 className="font-semibold">All Rooms</h3>
+        )}
         <Link
           href="/search"
           className="underline underline-offset-2 text-[#EC194E] mb-4"

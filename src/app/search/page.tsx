@@ -14,8 +14,6 @@ const SearchPage = () => {
     e.preventDefault();
     if (location.trim() === "") {
       toast.error("Please enter valid inputs for location");
-    } else if (category === "") {
-      toast.error("Please select category");
     } else {
       router.push(`/?location=${location}&category=${category}`);
     }
@@ -53,6 +51,7 @@ const SearchPage = () => {
               <option value="Select Option" disabled>
                 Select Option
               </option>
+              <option value="">All Categories</option>
               <option value="Single">Single</option>
               <option value="Twins">Twins</option>
               <option value="King">King</option>

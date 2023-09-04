@@ -14,6 +14,8 @@ interface RoomGridProps {
 const RoomsGrid = ({ data }: RoomGridProps) => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
+  const location = searchParams.get("location");
+  const category = searchParams.get("category");
   const router = useRouter();
   const pageNumber = Number(page) || 1;
   const dispatch = useAppDispatch();
@@ -31,7 +33,11 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   }, [data]);
 
   const handlePagination = (pageNum: number) => {
-    router.push(`/?page=${pageNum}`);
+    let link = `/?page=${pageNum}`;
+    if (location || category) {
+      link = `/?page=${pageNum}&location=${location}&category=${category}`;
+    }
+    router.push(link);
   };
   return (
     <>
