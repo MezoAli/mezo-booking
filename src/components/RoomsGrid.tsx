@@ -17,6 +17,8 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   const router = useRouter();
   const pageNumber = Number(page) || 1;
   const dispatch = useAppDispatch();
+  console.log(data);
+
   useEffect(() => {
     dispatch(
       addAllRooms({
@@ -33,12 +35,12 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   };
   return (
     <>
+      {data?.rooms?.length === 0 && (
+        <div className="text-center text-2xl text-red-600 my-8">
+          <p>No Rooms Found</p>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {data?.rooms?.length === 0 && (
-          <div className="text-center text-3xl text-red-600">
-            <p>No Rooms Found</p>
-          </div>
-        )}
         {data.rooms?.map((room: any) => {
           return <RoomCard key={room._id} room={room} />;
         })}

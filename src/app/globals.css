@@ -4,17 +4,17 @@
 
 .pagination {
   display: flex;
-  gap: 20px;
   justify-content: center;
+  gap: 1px;
   align-items: center;
 }
 
 .pagination > li {
-  border: 1px solid black;
+  border: 1px solid rgb(128, 120, 120);
   padding: 10px;
 }
 
 .pagination > li.active {
-  background-color: blue;
+  background-color: #ec194e;
   color: white;
 }

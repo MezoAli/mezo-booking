@@ -37,7 +37,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
         <span id="no_of_reviews">({room?.reviews?.length} Reviews)</span>
 
         <Link
-          className="bg-blue-400 rounded-md px-3 py-2 w-fit text-center"
+          className="bg-[#EC194E] rounded-md px-3 py-2 w-fit text-center text-white"
           href={`/rooms/${room._id}`}
         >
           View Details
