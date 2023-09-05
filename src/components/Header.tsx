@@ -23,7 +23,7 @@ const Header = async () => {
           {session?.user ? (
             <h2>hello {session?.user?.name}</h2>
           ) : (
-            <Link href="/login">Login</Link>
+            <Link href="/auth/login">Login</Link>
           )}
         </nav>
       </PaddingContainer>
