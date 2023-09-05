@@ -37,7 +37,7 @@ const getAllRooms = async (
 
 export default async function Home({ params, searchParams }: HomePageProps) {
   const session = await getServerSession(OPTIONS);
-  console.log("session : ", session);
+  console.log("session home page: ", session);
 
   const data = await getAllRooms(
     searchParams.page,

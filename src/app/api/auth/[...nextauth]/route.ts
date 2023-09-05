@@ -3,6 +3,7 @@ import User from "@/models/userModel";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { AnyARecord } from "dns";
 export const OPTIONS: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -49,6 +50,19 @@ export const OPTIONS: NextAuthOptions = {
   //   pages: {
   //     signIn: "/auth/signin",
   //   },
+  callbacks: {
+    async jwt({ token, user }: { token: any; user: any }) {
+      if (user) {
+        token.user = user;
+      }
+
+      return token;
+    },
+    async session({ session, token }: { session: any; token: any }) {
+      session.user = token.user;
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(OPTIONS);
