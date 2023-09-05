@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-export default function LoginForm(): JSX.Element {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
