@@ -1,6 +1,8 @@
 import RoomsGrid from "@/components/RoomsGrid";
 import PaddingContainer from "../components/PaddingContainer";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { OPTIONS } from "./api/auth/[...nextauth]/route";
 
 interface HomePageProps {
   params: {};
@@ -34,7 +36,8 @@ const getAllRooms = async (
 };
 
 export default async function Home({ params, searchParams }: HomePageProps) {
-  console.log(searchParams);
+  const session = await getServerSession(OPTIONS);
+  console.log("session : ", session);
 
   const data = await getAllRooms(
     searchParams.page,

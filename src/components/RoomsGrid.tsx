@@ -19,7 +19,6 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   const router = useRouter();
   const pageNumber = Number(page) || 1;
   const dispatch = useAppDispatch();
-  console.log(data);
 
   useEffect(() => {
     dispatch(
