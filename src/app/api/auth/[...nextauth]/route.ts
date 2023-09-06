@@ -3,7 +3,6 @@ import User from "@/models/userModel";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { AnyARecord } from "dns";
 export const OPTIONS: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -25,6 +24,7 @@ export const OPTIONS: NextAuthOptions = {
           let user = await User.findOne({ email: credentials!.email });
 
           if (!user) {
+            throw new Error("user not exist");
             return null;
           }
 
@@ -47,9 +47,6 @@ export const OPTIONS: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  //   pages: {
-  //     signIn: "/auth/signin",
-  //   },
   callbacks: {
     async jwt({ token, user }: { token: any; user: any }) {
       if (user) {

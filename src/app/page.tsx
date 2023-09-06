@@ -3,6 +3,7 @@ import PaddingContainer from "../components/PaddingContainer";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "./api/auth/[...nextauth]/route";
+import axios from "axios";
 
 interface HomePageProps {
   params: {};
@@ -13,25 +14,20 @@ interface HomePageProps {
   };
 }
 
+export const revalidate = 120;
+
 const getAllRooms = async (
   pageNum: string = "1",
   location: string = "",
   category: string = ""
 ) => {
   try {
-    const response = await fetch(
-      `${process.env.SITE_URL}/api/rooms?page=${pageNum}&location=${location}&category=${category}`,
-      {
-        next: {
-          revalidate: 120,
-          tags: ["rooms"],
-        },
-      }
+    const response = await axios.get(
+      `${process.env.SITE_URL}/api/rooms?page=${pageNum}&location=${location}&category=${category}`
     );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return { error };
+    return response.data;
+  } catch (error: any) {
+    console.log(error.response.data.message);
   }
 };
 

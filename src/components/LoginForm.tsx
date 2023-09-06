@@ -1,27 +1,37 @@
 "use client";
 import PaddingContainer from "./PaddingContainer";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useAppDispatch } from "@/redux/store/hooks";
+import { getUser } from "@/redux/slices/userSlice";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
+  console.log(session?.user);
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const result = await signIn("credentials", {
         redirect: false,
         email,
         password,
       });
+      setLoading(false);
       console.log(result);
 
       if (result?.error) {
-        toast.error(result?.error);
+        toast.error("incorrect email or password");
         return;
       }
       toast.success("Login In Successfully");
@@ -30,6 +40,10 @@ export default function LoginForm() {
       toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    dispatch(getUser(session?.user));
+  }, [dispatch]);
   return (
     <PaddingContainer>
       <div className="h-full">
@@ -79,9 +93,10 @@ export default function LoginForm() {
             <div className="flex flex-col items-center justify-center gap-4">
               <button
                 type="submit"
+                disabled={loading}
                 className="bg-blue-400 rounded-md px-4 py-2 transition duration-150 ease-in-out hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700"
               >
-                Login
+                {loading ? "Loading..." : "Login"}
               </button>
 
               <p className="mb-0 mt-2 pt-1 text-sm font-semibold">

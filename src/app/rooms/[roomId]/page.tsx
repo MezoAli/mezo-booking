@@ -1,32 +1,29 @@
 import RoomDetails from "@/components/RoomDetails";
 import { Room } from "@/types/roomTypes";
 import { notFound } from "next/navigation";
-
+import axios from "axios";
 interface RoomPageProps {
   params: {
     roomId: string;
   };
 }
 
+export const revalidate = 120;
+
 const getRoomData = async (roomId: string) => {
   try {
-    const response = await fetch(`${process.env.SITE_URL}/api/rooms/${roomId}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return { error };
+    const response = await axios.get(
+      `${process.env.SITE_URL}/api/rooms/${roomId}`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.log(error.response.data.message);
   }
 };
 
 export async function generateStaticParams() {
-  const response = await fetch(`${process.env.SITE_URL}/api/rooms`, {
-    next: {
-      revalidate: 120,
-      tags: ["room"],
-    },
-  });
-  const data = await response.json();
-  return data?.rooms?.map((room: Room) => ({
+  const response = await axios.get(`${process.env.SITE_URL}/api/rooms`);
+  return response.data?.rooms?.map((room: Room) => ({
     roomId: room?._id,
   }));
 }

@@ -8,7 +8,6 @@ const SearchPage = () => {
   const [location, setLocation] = useState("");
   const [category, setCategory] = useState("");
   const router = useRouter();
-  console.log(category);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

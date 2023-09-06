@@ -1,12 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import PaddingContainer from "./PaddingContainer";
-import { getServerSession } from "next-auth";
-import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
+import { useSession } from "next-auth/react";
 import SignOutButton from "./SignOutButton";
 
-const Header = async () => {
-  const session = await getServerSession(OPTIONS);
+const Header = () => {
+  const { data: session } = useSession();
   return (
     <div className="border-b mb-4 z-50 sticky top-0 left-0 bg-white/30 backdrop-blur-sm">
       <PaddingContainer>
