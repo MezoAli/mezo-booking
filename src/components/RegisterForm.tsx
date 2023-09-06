@@ -2,19 +2,56 @@
 import Link from "next/link";
 import PaddingContainer from "./PaddingContainer";
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [previewAvatar, setPreviewAvatar] = useState("");
 
-  const handleRegister = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(name, email, password, avatar);
+  const handleAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target && e.target.files) {
+      const file = e?.target?.files[0];
+      const fr = new FileReader();
+      fr.readAsDataURL(file);
+
+      fr.onloadend = () => {
+        if (fr.result) {
+          const result = fr.result;
+          setAvatar(result as string);
+          setPreviewAvatar(result as string);
+        }
+      };
+    }
   };
+
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const reqBody = {
+        name,
+        password,
+        email,
+        avatar,
+      };
+
+      const response = await axios.post("/api/auth/register", reqBody);
+      toast.success(response.data.message);
+      setLoading(false);
+      router.push("/auth/login");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <PaddingContainer>
       <div className="h-full">
@@ -80,8 +117,7 @@ const RegisterForm = () => {
                     type="file"
                     accept="image/*"
                     placeholder="choose avatar"
-                    value={avatar}
-                    onChange={(e) => setAvatar(e.target.value)}
+                    onChange={(e) => handleAvatar(e)}
                   />
                 </div>
               </div>
@@ -90,9 +126,10 @@ const RegisterForm = () => {
             <div className="flex flex-col items-center justify-center gap-4">
               <button
                 type="submit"
+                disabled={loading}
                 className="bg-blue-400 rounded-md px-4 py-2 transition duration-150 ease-in-out hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700"
               >
-                Register
+                {loading ? "Loading..." : "Register"}
               </button>
 
               <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
