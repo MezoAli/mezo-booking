@@ -23,7 +23,12 @@ const Header = () => {
           {session?.user ? (
             <UserSettings />
           ) : (
-            <Link href="/auth/login">Login</Link>
+            <Link
+              href="/auth/login"
+              className="bg-[#EC194E] text-white font-semibold px-4 py-2 rounded-md hover:text-[#EC194E] hover:bg-white hover:border-[#EC194E] hover:border hover:outline-none box-border transition duration-150"
+            >
+              Login
+            </Link>
           )}
         </nav>
       </PaddingContainer>
