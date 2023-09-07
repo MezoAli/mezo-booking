@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PaddingContainer from "./PaddingContainer";
 import { useSession } from "next-auth/react";
-import SignOutButton from "./SignOutButton";
+import UserSettings from "./UserSettings";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -21,7 +21,7 @@ const Header = () => {
           </Link>
 
           {session?.user ? (
-            <SignOutButton />
+            <UserSettings />
           ) : (
             <Link href="/auth/login">Login</Link>
           )}
