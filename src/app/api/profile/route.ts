@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const reqBody = await req.json();
+    const id = req.nextUrl.searchParams.get("id");
 
-    const user = await User.findById(reqBody._id).select("-password");
+    const user = await User.findById(id).select("-password");
 
     return NextResponse.json(
       { message: "Get User Data Successfully", user },

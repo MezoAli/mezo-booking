@@ -6,6 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/userType";
+import Link from "next/link";
 
 export default function UserSettings() {
   const { data: session } = useSession();
@@ -45,7 +46,7 @@ export default function UserSettings() {
                     active ? "bg-[#EC194E] text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
-                  My Bookings
+                  <Link href="/my-bookings">My Bookings</Link>
                 </button>
               )}
             </Menu.Item>
@@ -56,7 +57,7 @@ export default function UserSettings() {
                     active ? "bg-[#EC194E] text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
-                  Profile
+                  <Link href="/profile">Profile</Link>
                 </button>
               )}
             </Menu.Item>
