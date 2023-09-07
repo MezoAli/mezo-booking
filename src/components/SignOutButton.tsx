@@ -1,5 +1,4 @@
 "use client";
-import { useAppSelector } from "@/redux/store/hooks";
 import { signOut, useSession } from "next-auth/react";
 const SignOutButton = () => {
   // const user = useAppSelector((state) => state.user);

@@ -33,13 +33,15 @@ const getAllRooms = async (
 
 export default async function Home({ params, searchParams }: HomePageProps) {
   const session = await getServerSession(OPTIONS);
-  // console.log("session home page: ", session);
+  console.log("session home page: ", session);
 
   const data = await getAllRooms(
     searchParams.page,
     searchParams.location,
     searchParams.category
   );
+
+  // console.log(data);
 
   return (
     <PaddingContainer>

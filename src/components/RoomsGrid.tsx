@@ -23,10 +23,10 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
   useEffect(() => {
     dispatch(
       addAllRooms({
-        rooms: data.rooms,
-        totalRoomsCount: data.totalRoomsCount,
-        filteredRoomsCount: data.filteredRoomsCount,
-        roomsPerPage: data.roomsPerPage,
+        rooms: data?.rooms,
+        totalRoomsCount: data?.totalRoomsCount,
+        filteredRoomsCount: data?.filteredRoomsCount,
+        roomsPerPage: data?.roomsPerPage,
       })
     );
   }, [data]);
@@ -46,7 +46,7 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {data.rooms?.map((room: any) => {
+        {data?.rooms?.map((room: any) => {
           return <RoomCard key={room._id} room={room} />;
         })}
       </div>
@@ -54,7 +54,7 @@ const RoomsGrid = ({ data }: RoomGridProps) => {
         <Pagination
           activePage={pageNumber}
           itemsCountPerPage={data?.roomsPerPage}
-          totalItemsCount={data.totalRoomsCount}
+          totalItemsCount={data?.totalRoomsCount}
           onChange={handlePagination}
           nextPageText="Next"
           prevPageText="Prev"
