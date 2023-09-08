@@ -7,6 +7,7 @@ import UserSettings from "./UserSettings";
 
 const Header = () => {
   const { data: session } = useSession();
+
   return (
     <div className="border-b mb-4 z-50 sticky top-0 left-0 bg-white/30 backdrop-blur-sm">
       <PaddingContainer>
@@ -21,7 +22,7 @@ const Header = () => {
           </Link>
 
           {session?.user ? (
-            <UserSettings />
+            <UserSettings userId={session.user._id} />
           ) : (
             <Link
               href="/auth/login"

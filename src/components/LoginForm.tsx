@@ -1,22 +1,15 @@
 "use client";
 import PaddingContainer from "./PaddingContainer";
 import Link from "next/link";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { useAppDispatch } from "@/redux/store/hooks";
-import { getUser } from "@/redux/slices/userSlice";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
-  console.log(session?.user);
-
-  const dispatch = useAppDispatch();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,9 +34,6 @@ export default function LoginForm() {
     }
   };
 
-  useEffect(() => {
-    dispatch(getUser(session?.user));
-  }, [dispatch]);
   return (
     <PaddingContainer>
       <div className="h-full">

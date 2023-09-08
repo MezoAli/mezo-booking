@@ -1,5 +1,6 @@
-export interface User {
+export type User = {
   name: string;
+  _id: string;
   email: string;
   password: string;
   avatar: {
@@ -8,5 +9,5 @@ export interface User {
   };
   role: "user" | "admin";
   resetPasswordToken?: string;
-  resetPasswordExpire?: string;
-}
+  resetPasswordExpire?: Date;
+};

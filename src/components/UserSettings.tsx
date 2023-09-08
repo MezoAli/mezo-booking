@@ -7,21 +7,34 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/userType";
 import Link from "next/link";
+import axios from "axios";
 
-export default function UserSettings() {
-  const { data: session } = useSession();
-  const user: User | undefined = session?.user as User;
+interface UserSettingProps {
+  userId: string;
+}
+export default function UserSettings({ userId }: UserSettingProps) {
+  const [user, setUser] = useState<User | undefined>(undefined);
   const router = useRouter();
+
+  const getUserData = async (id: string) => {
+    const response = await axios.get(`/api/profile?id=${id}`);
+    console.log("response : ", response);
+    setUser(response.data.user);
+  };
+
+  useEffect(() => {
+    getUserData(userId);
+  }, [userId]);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="flex w-full justify-center items-center gap-2 rounded-md  px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
           <div className="w-[40px] h-[40px] rounded-full bg-gray-400 relative overflow-hidden">
-            {session?.user && user?.avatar && user?.avatar?.url && (
+            {user?.avatar && user?.avatar?.url && (
               <Image src={user?.avatar?.url!} alt="avatar" fill />
             )}
           </div>
-          <h4>{session?.user?.name?.toUpperCase()}</h4>
+          <h4>{user?.name?.toUpperCase()}</h4>
           <BsChevronCompactDown
             className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
             aria-hidden="true"

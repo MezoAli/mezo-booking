@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,12 +34,20 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
     resetPasswordToken: String,
-    resetPasswordExpire: String,
+    resetPasswordExpire: Date,
   },
   {
     timestamps: true,
   }
 );
+
+// userSchema.methods.setResetPasswordToken = function () {
+//   const resetToken = crypto.createHash("");
+
+//   this.resetPasswordExpire = Date.now() + 60 * 30 * 1000;
+
+//   return resetToken;
+// };
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 

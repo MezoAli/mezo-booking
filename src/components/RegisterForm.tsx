@@ -6,15 +6,20 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { User } from "@/types/userType";
 
-const RegisterForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+interface RegisterFormProps {
+  user: User | undefined;
+}
+
+const RegisterForm = ({ user }: RegisterFormProps) => {
+  const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [previewAvatar, setPreviewAvatar] = useState("");
+  const [previewAvatar, setPreviewAvatar] = useState(user?.avatar?.url);
 
   const handleAvatar = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target && e.target.files) {
@@ -34,21 +39,42 @@ const RegisterForm = () => {
 
   const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const reqBody = {
-        name,
-        password,
-        email,
-        avatar,
-      };
 
-      const response = await axios.post("/api/auth/register", reqBody);
-      toast.success(response.data.message);
-      setLoading(false);
-      router.push("/auth/login");
-    } catch (error: any) {
-      toast.error(error.response.data.message);
+    setLoading(true);
+    if (user) {
+      try {
+        const reqBody = {
+          name,
+          password,
+          email,
+          avatar,
+          _id: user._id,
+        };
+        const response = await axios.patch("/api/profile", reqBody);
+        toast.success(response.data.message);
+        router.push("/");
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        const reqBody = {
+          name,
+          password,
+          email,
+          avatar,
+        };
+
+        const response = await axios.post("/api/auth/register", reqBody);
+        toast.success(response.data.message);
+        router.push("/auth/login");
+      } catch (error: any) {
+        toast.error(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -59,7 +85,7 @@ const RegisterForm = () => {
           <form onSubmit={handleRegister}>
             <div className="flex flex-row items-center justify-center lg:justify-start">
               <h3 className="text-center w-full text-2xl font-semibold mb-5">
-                Join Us
+                {user ? "Update Profile" : "Join Us"}
               </h3>
             </div>
 
@@ -77,7 +103,7 @@ const RegisterForm = () => {
                   type="text"
                   className="rounded-md p-3 border border-gray-300 focus:border-gray-600 w-[70%]"
                   id="name"
-                  value={name}
+                  value={name ? name : ""}
                   onChange={(e) => setName(e.target.value)}
                 ></input>
               </div>
@@ -129,18 +155,22 @@ const RegisterForm = () => {
                 disabled={loading}
                 className="bg-blue-400 rounded-md px-4 py-2 transition duration-150 ease-in-out hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700"
               >
-                {loading ? "Loading..." : "Register"}
+                {loading ? "Loading..." : user ? "Update" : "Register"}
               </button>
 
-              <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                Have an account?
-                <Link
-                  href="/auth/login"
-                  className="text-blue-400 transition duration-150 ease-in-out hover:text-blue-600 focus:text-blue-600 active:text-blue-700 underline"
-                >
-                  Login
-                </Link>
-              </p>
+              {user ? (
+                ""
+              ) : (
+                <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                  Have an account?
+                  <Link
+                    href="/auth/login"
+                    className="text-blue-400 transition duration-150 ease-in-out hover:text-blue-600 focus:text-blue-600 active:text-blue-700 underline"
+                  >
+                    Login
+                  </Link>
+                </p>
+              )}
             </div>
           </form>
         </div>

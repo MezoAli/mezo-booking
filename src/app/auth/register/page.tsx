@@ -10,7 +10,7 @@ const RegisterPage = async () => {
     return redirect("/");
   }
 
-  return <RegisterForm />;
+  return <RegisterForm user={undefined} />;
 };
 
 export default RegisterPage;
