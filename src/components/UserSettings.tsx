@@ -1,10 +1,10 @@
 "use client";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, JSX, SVGProps, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { BsChevronCompactDown } from "react-icons/bs";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { User } from "@/types/userType";
 import Link from "next/link";
 import axios from "axios";
@@ -14,25 +14,28 @@ interface UserSettingProps {
 }
 export default function UserSettings({ userId }: UserSettingProps) {
   const [user, setUser] = useState<User | undefined>(undefined);
+  const pathname = usePathname();
   const router = useRouter();
 
   const getUserData = async (id: string) => {
     const response = await axios.get(`/api/profile?id=${id}`);
-    console.log("response : ", response);
     setUser(response.data.user);
   };
 
   useEffect(() => {
     getUserData(userId);
-  }, [userId]);
+  }, [userId, pathname]);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button className="flex w-full justify-center items-center gap-2 rounded-md  px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-          <div className="w-[40px] h-[40px] rounded-full bg-gray-400 relative overflow-hidden">
+          <div className="w-[40px] h-[40px] rounded-full bg-gray-400 relative overflow-hidden flex justify-center items-center text-3xl text-white">
             {user?.avatar && user?.avatar?.url && (
               <Image src={user?.avatar?.url!} alt="avatar" fill />
             )}
+            {!user?.avatar &&
+              !user?.avatar?.url &&
+              user?.name.substring(0, 1).toUpperCase()}
           </div>
           <h4>{user?.name?.toUpperCase()}</h4>
           <BsChevronCompactDown

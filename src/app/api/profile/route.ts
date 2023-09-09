@@ -17,7 +17,10 @@ export async function PATCH(req: NextRequest) {
   try {
     let reqBody = await req.json();
 
-    if (reqBody?.password) {
+    if (reqBody.password) {
+      if (reqBody.password.length < 6) {
+        throw new Error("password should be atleast 6 characters");
+      }
       const hashPassword = await bcrypt.hash(reqBody.password, 12);
       reqBody.password = hashPassword;
     }
@@ -44,8 +47,6 @@ export async function PATCH(req: NextRequest) {
       new: true,
       runValidators: true,
     });
-
-    revalidatePath("/");
 
     return NextResponse.json(
       { message: "Profile Updated Successfully", user },

@@ -41,13 +41,18 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// userSchema.methods.setResetPasswordToken = function () {
-//   const resetToken = crypto.createHash("");
+userSchema.methods.setResetPasswordToken = function () {
+  const resetToken = crypto.randomBytes(20).toString("hex");
 
-//   this.resetPasswordExpire = Date.now() + 60 * 30 * 1000;
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
 
-//   return resetToken;
-// };
+  this.resetPasswordExpire = Date.now() + 60 * 30 * 1000;
+
+  return resetToken;
+};
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 

@@ -30,18 +30,22 @@ export async function POST(req: NextRequest) {
       throw new Error("password should be atleast 6 characters");
     }
 
-    const avatar: string = reqBody.avatar;
+    if (reqBody?.avatar) {
+      const avatar: string = reqBody.avatar;
 
-    const result = await cloudinary.uploader.upload(avatar, {
-      folder: "mezo-booking/avatars",
-    });
+      const result = await cloudinary.uploader.upload(avatar, {
+        folder: "mezo-booking/avatars",
+      });
+
+      reqBody.avatar = {
+        public_id: result.public_id,
+        url: result.url,
+      };
+    }
 
     const hashPassword = await bcrypt.hash(reqBody.password, 12);
+
     reqBody.password = hashPassword;
-    reqBody.avatar = {
-      public_id: result.public_id,
-      url: result.url,
-    };
 
     const user = await User.create(reqBody);
 

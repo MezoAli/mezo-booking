@@ -2,6 +2,7 @@ import axios from "axios";
 import { OPTIONS } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import RegisterForm from "@/components/RegisterForm";
+import Header from "@/components/Header";
 
 const getUserData = async (id: string) => {
   const response = await axios.get(

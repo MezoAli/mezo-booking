@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "./api/auth/[...nextauth]/route";
 import axios from "axios";
+import Header from "@/components/Header";
 
 interface HomePageProps {
   params: {};
@@ -15,6 +16,7 @@ interface HomePageProps {
 }
 
 export const revalidate = 120;
+export const dynamic = "force-dynamic";
 
 const getAllRooms = async (
   pageNum: string = "1",

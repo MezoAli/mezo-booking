@@ -2,6 +2,7 @@ import RoomDetails from "@/components/RoomDetails";
 import { Room } from "@/types/roomTypes";
 import { notFound } from "next/navigation";
 import axios from "axios";
+import Header from "@/components/Header";
 interface RoomPageProps {
   params: {
     roomId: string;

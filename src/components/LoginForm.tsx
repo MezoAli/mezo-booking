@@ -21,7 +21,6 @@ export default function LoginForm() {
         password,
       });
       setLoading(false);
-      console.log(result);
 
       if (result?.error) {
         toast.error("incorrect email or password");

@@ -103,7 +103,7 @@ const RegisterForm = ({ user }: RegisterFormProps) => {
                   type="text"
                   className="rounded-md p-3 border border-gray-300 focus:border-gray-600 w-[70%]"
                   id="name"
-                  value={name ? name : ""}
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 ></input>
               </div>
