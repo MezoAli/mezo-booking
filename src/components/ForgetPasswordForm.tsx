@@ -26,7 +26,7 @@ const ForgetPasswordForm = () => {
           disabled={loading}
           className="bg-[#EC194E] text-white w-full md:w-[50%] hover:border my-4 font-semibold px-4 py-2 rounded-md hover:text-[#EC194E] hover:bg-white hover:border-[#EC194E]  hover:outline-none box-border transition duration-150"
         >
-          {loading ? "Loading..." : "Login"}
+          {loading ? "Loading..." : "Send Email"}
         </button>
       </form>
     </PaddingContainer>
