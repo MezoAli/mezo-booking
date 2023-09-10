@@ -74,7 +74,10 @@ export default function LoginForm() {
             </div>
 
             <div className="flex justify-start items-start my-5">
-              <Link href="#!" className="underline underline-offset-2">
+              <Link
+                href="/password/forget"
+                className="underline underline-offset-2"
+              >
                 Forgot password?
               </Link>
             </div>
