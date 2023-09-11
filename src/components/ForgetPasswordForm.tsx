@@ -1,16 +1,40 @@
 "use client";
+import axios from "axios";
 import PaddingContainer from "./PaddingContainer";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const ForgetPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const response = await axios.post("/api/password/forget", { email });
+      console.log(response?.data?.message);
+      console.log(response);
+
+      toast.success(`Email Sent Successfully to ${email}`);
+      router.push("/auth/login");
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <PaddingContainer>
       <h2 className="text-center text-2xl my-4 font-semibold">
         Forget Password
       </h2>
-      <form className="flex justify-center items-center w-full flex-col gap-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex justify-center items-center w-full flex-col gap-4"
+      >
         <label htmlFor="email" className="text-lg my-5 font-semibold">
           Email
         </label>
