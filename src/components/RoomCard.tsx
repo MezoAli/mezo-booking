@@ -15,9 +15,8 @@ const RoomCard = ({ room }: RoomCardProps) => {
         width={150}
         height={150}
         alt={room.name}
-        className="rounded-sm w-fit "
-        // src={room.images[0].url}
-        src="https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
+        className="rounded-md aspect-square w-full"
+        src={room.images[0].url}
       />
 
       <div className="flex flex-col gap-2 justify-start">

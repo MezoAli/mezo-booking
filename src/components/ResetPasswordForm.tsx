@@ -22,7 +22,6 @@ const ResetPasswordForm = ({ resetToken }: { resetToken: string }) => {
           confirmPassword,
         }
       );
-      console.log(response);
 
       toast.success(response.data.message);
       router.push("/auth/login");
