@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
 import connectDB from "@/config/connectDB";
-import { revalidatePath } from "next/cache";
 
 connectDB();
 

@@ -1,6 +1,8 @@
+import connectDB from "@/config/connectDB";
 import sendEmail from "@/lib/sendEmail";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
+connectDB();
 
 export async function POST(req: NextRequest) {
   try {
