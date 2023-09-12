@@ -8,18 +8,14 @@ import { useRouter } from "next/navigation";
 const ForgetPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       setLoading(true);
       const response = await axios.post("/api/password/forget", { email });
-      console.log(response?.data?.message);
-      console.log(response);
 
       toast.success(`Email Sent Successfully to ${email}`);
-      router.push("/auth/login");
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {

@@ -1,3 +1,5 @@
+import ResetPasswordForm from "@/components/ResetPasswordForm";
+
 interface ResetPasswordPageProps {
   params: {
     resetToken: string;
@@ -6,7 +8,7 @@ interface ResetPasswordPageProps {
 const ResetPasswordPage = ({
   params: { resetToken },
 }: ResetPasswordPageProps) => {
-  return <div>reset token : {resetToken}</div>;
+  return <ResetPasswordForm resetToken={resetToken} />;
 };
 
 export default ResetPasswordPage;
