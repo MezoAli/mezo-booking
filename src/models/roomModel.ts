@@ -34,23 +34,23 @@ const roomSchema = new mongoose.Schema(
       require: [true, "Please Enter Number Of Beds"],
       trim: true,
     },
-    internet: {
+    isInternet: {
       type: Boolean,
       default: false,
     },
-    breakfast: {
+    isBreakfast: {
       type: Boolean,
       default: false,
     },
-    airConditioned: {
+    isAirConditioned: {
       type: Boolean,
       default: false,
     },
-    petsAllowed: {
+    isPetsAllowed: {
       type: Boolean,
       default: false,
     },
-    roomCleaning: {
+    isRoomCleaning: {
       type: Boolean,
       default: false,
     },
@@ -58,7 +58,7 @@ const roomSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    numberOfReviews: {
+    numOfReviews: {
       type: Number,
       default: 0,
     },

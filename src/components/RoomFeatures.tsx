@@ -33,31 +33,31 @@ const RoomFeatures = ({ room }: RoomFeaturesProps) => {
         <TbToolsKitchen2 />
         <p>Kitchen</p>
       </div>
-      {room.internet && (
+      {room.isInternet && (
         <div className="flex justify-center items-center gap-5 text-lg">
           <AiOutlineWifi />
           <p>WIFI</p>
         </div>
       )}
-      {room.breakfast && (
+      {room.isBreakfast && (
         <div className="flex justify-center items-center gap-5 text-lg">
           <MdFreeBreakfast />
           <p>Breakfast</p>
         </div>
       )}
-      {room.petsAllowed && (
+      {room.isPetsAllowed && (
         <div className="flex justify-center items-center gap-5 text-lg">
           <MdPets />
           <p>Pets Allowed</p>
         </div>
       )}
-      {room.airConditioned && (
+      {room.isAirConditioned && (
         <div className="flex justify-center items-center gap-5 text-lg">
           <TbAirConditioning />
           <p>AirConditioned</p>
         </div>
       )}
-      {room.roomCleaning && (
+      {room.isRoomCleaning && (
         <div className="flex justify-center items-center gap-5 text-lg">
           <GiVacuumCleaner />
           <p>RoomCleaning</p>

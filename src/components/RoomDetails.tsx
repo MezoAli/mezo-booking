@@ -33,40 +33,24 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
               })}
             </div>
           </div>
-          <div>{room?.numberOfReviews} Reviews</div>
+          <div>{room?.numOfReviews} Reviews</div>
         </div>
 
         <Carousel showThumbs={false}>
-          <div>
-            <Image
-              width={1280}
-              height={600}
-              alt={room.name}
-              className="rounded-md"
-              src="https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
-            />
-            <p className="legend">Legend 1</p>
-          </div>
-          <div>
-            <Image
-              width={1280}
-              height={600}
-              alt={room.name}
-              className="rounded-md"
-              src="https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
-            />
-            <p className="legend">Legend 2</p>
-          </div>
-          <div>
-            <Image
-              width={1280}
-              height={600}
-              alt={room.name}
-              className="rounded-md"
-              src="https://a0.muscache.com/im/pictures/a8f6a489-d236-4d2d-a57b-a95d928970af.jpg?im_w=960"
-            />
-            <p className="legend">Legend 3</p>
-          </div>
+          {room?.images?.map((item) => {
+            return (
+              <div key={item.public_id}>
+                <Image
+                  width={1280}
+                  height={600}
+                  alt="room"
+                  className="rounded-md"
+                  src={item.url}
+                />
+                <p className="legend">Legend 1</p>
+              </div>
+            );
+          })}
         </Carousel>
 
         <div className="flex flex-col md:flex-row gap-5 justify-between items-center flex-nowrap">

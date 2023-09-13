@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import UserSettings from "./UserSettings";
 
 const Header = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   return (
     <div className="border-b mb-4 z-50 sticky top-0 left-0 bg-white/30 backdrop-blur-sm">
@@ -21,9 +21,13 @@ const Header = () => {
             />
           </Link>
 
-          {session?.user ? (
-            <UserSettings userId={session.user._id} />
-          ) : (
+          {session?.user && <UserSettings userId={session.user._id} />}
+          {status === "loading" && (
+            <p className="bg-[#EC194E] text-white font-semibold px-4 py-2 rounded-md">
+              Loading...
+            </p>
+          )}
+          {status === "unauthenticated" && (
             <Link
               href="/auth/login"
               className="bg-[#EC194E] text-white font-semibold px-4 py-2 rounded-md hover:text-[#EC194E] hover:bg-white hover:border-[#EC194E]  hover:outline-none box-border transition duration-150"
