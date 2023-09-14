@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { AiOutlineGoogle } from "react-icons/ai";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,16 +39,24 @@ export default function LoginForm() {
       <div className="h-full">
         <div className="mb-12 w-full md:w-[50%] md:mx-auto">
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-row items-center justify-center lg:justify-start">
-              <p className="mb-0 mr-4 text-lg">Sign in with</p>
+            <div className="flex flex-col items-center my-7 font-semibold justify-center lg:justify-start">
+              <p className="mb-0 mr-4 text-lg flex">Sign in with</p>
+              {/* <div className="w-full my-4">
+                <button
+                  onClick={() => signIn("google")}
+                  className="bg-[#EC194E] rounded-md px-4 py-2 flex justify-center items-center text-white text-3xl"
+                >
+                  <AiOutlineGoogle />
+                </button>
+              </div> */}
             </div>
 
             {/* <!-- Separator between social media sign in and email/password sign in --> */}
-            <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+            {/* <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
               <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
                 Or
               </p>
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-4 w-full my-4">
               <div className="flex justify-between items-center gap-4">

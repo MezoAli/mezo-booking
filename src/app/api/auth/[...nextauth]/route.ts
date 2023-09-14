@@ -2,6 +2,7 @@ import connectDB from "@/config/connectDB";
 import User from "@/models/userModel";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+// import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 export const OPTIONS: NextAuthOptions = {
   providers: [
@@ -21,11 +22,12 @@ export const OPTIONS: NextAuthOptions = {
         try {
           connectDB();
 
-          let user = await User.findOne({ email: credentials!.email });
+          let user = await User.findOne({ email: credentials!.email }).select(
+            "+password"
+          );
 
           if (!user) {
             throw new Error("user not exist");
-            return null;
           }
 
           const isCorrectPassword = await bcrypt.compare(
@@ -43,6 +45,20 @@ export const OPTIONS: NextAuthOptions = {
         }
       },
     }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID!,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    //   profile(profile) {
+    //     console.log(profile);
+
+    //     return {
+    //       _id: profile.sub,
+    //       name: profile.name,
+    //       email: profile.email,
+    //       image: profile.picture,
+    //     };
+    //   },
+    // }),
   ],
   session: {
     strategy: "jwt",
@@ -60,9 +76,13 @@ export const OPTIONS: NextAuthOptions = {
     },
     async session({ session, token }: { session: any; token: any }) {
       session.user = token.user;
+
+      delete session?.user?.password;
+
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(OPTIONS);
