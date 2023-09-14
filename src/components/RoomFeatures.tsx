@@ -12,7 +12,7 @@ interface RoomFeaturesProps {
 
 const RoomFeatures = ({ room }: RoomFeaturesProps) => {
   return (
-    <div className="flex flex-col gap-3 justify-start items-start">
+    <div className="flex flex-col gap-3 justify-start items-start w-full">
       <h3 className="font-semibold text-xl">Features : </h3>
       <div className="flex justify-center items-center gap-5 text-lg">
         <BsPeopleFill />

@@ -71,6 +71,21 @@ const roomSchema = new mongoose.Schema(
       ref: "users",
       require: false,
     },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+      },
+      coordinates: {
+        type: [Number],
+        index: "2dsphere",
+      },
+      formattedAddress: String,
+      city: String,
+      state: String,
+      zipCode: String,
+      country: String,
+    },
     reviews: [
       {
         user: {

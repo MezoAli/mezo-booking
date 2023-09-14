@@ -58,6 +58,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
             <div className="font-semibold text-xl mb-4">Description</div>
             <div className="text-md text-gray-600">{room.description}</div>
           </div>
+
           <div className="w-full">
             <div className="border border-gray-600 rounded-md shadow-md bg-white py-4 px-10 flex flex-col items-center justify-center gap-4">
               <div>$ {room.pricePerNight} / Night</div>
@@ -68,7 +69,10 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
           </div>
         </div>
 
-        <RoomFeatures room={room} />
+        <div className="flex flex-col md:flex-row gap-5 justify-between items-center w-full">
+          <RoomFeatures room={room} />
+          <div className="w-full bg-gray-400 rounded-md h-[300px]"></div>
+        </div>
       </div>
     </PaddingContainer>
   );
