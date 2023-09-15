@@ -1,6 +1,50 @@
-import mongoose from "mongoose";
+import geocoder from "../lib/geocoder";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
-const roomSchema = new mongoose.Schema(
+interface Location {
+  type: "Point";
+  coordinates: [number, number];
+  formattedAddress: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
+interface Review extends Document {
+  user: mongoose.Schema.Types.ObjectId;
+  name: string;
+  comment: string;
+  rating: number;
+}
+
+interface Image {
+  public_id: string;
+  url: string;
+}
+
+export interface RoomDocument extends Document {
+  name: string;
+  pricePerNight: number;
+  description: string;
+  address: string;
+  guestCapacity: number;
+  numOfBeds: number;
+  isInternet: boolean;
+  isBreakfast: boolean;
+  isAirConditioned: boolean;
+  isPetsAllowed: boolean;
+  isRoomCleaning: boolean;
+  ratings: number;
+  numOfReviews: number;
+  category: "Single" | "Twins" | "King";
+  user?: mongoose.Schema.Types.ObjectId | null;
+  location: Location;
+  reviews: Review[];
+  images: Image[];
+}
+
+const roomSchema = new mongoose.Schema<RoomDocument>(
   {
     name: {
       type: String,
@@ -124,6 +168,20 @@ const roomSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+roomSchema.pre("save", async function (next) {
+  const result = await geocoder.geocode(this.address);
+
+  this.location = {
+    type: "Point",
+    coordinates: [result[0].longitude, result[0].latitude],
+    formattedAddress: result[0].formattedAddress,
+    city: result[0].city,
+    state: result[0].stateCode,
+    zipCode: result[0].zipcode,
+    country: result[0].countryCode,
+  };
+});
 
 const Room = mongoose.models.rooms || mongoose.model("rooms", roomSchema);
 

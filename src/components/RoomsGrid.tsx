@@ -1,5 +1,4 @@
 "use client";
-import { Rooms } from "@/types/roomTypes";
 import React, { useEffect } from "react";
 import RoomCard from "./RoomCard";
 import { useAppDispatch, useAppSelector } from "@/redux/store/hooks";
@@ -7,11 +6,15 @@ import { addAllRooms } from "@/redux/slices/roomsSlice";
 import Pagination from "react-js-pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 
-interface RoomGridProps {
-  data: Rooms;
-}
+// interface RoomsDocument {
 
-const RoomsGrid = ({ data }: RoomGridProps) => {
+// }
+
+// interface RoomGridProps {
+//   data: Room;
+// }
+
+const RoomsGrid = ({ data }: any) => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");
   const location = searchParams.get("location");

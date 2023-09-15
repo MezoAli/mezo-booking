@@ -1,17 +1,40 @@
 "use client";
-import { Room } from "@/types/roomTypes";
 import PaddingContainer from "./PaddingContainer";
 import { AiOutlineStar } from "react-icons/ai";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import RoomFeatures from "./RoomFeatures";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
+import { RoomDocument } from "@/models/roomModel";
+import { useEffect } from "react";
+import "mapbox-gl/dist/mapbox-gl.css";
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoibW91dGF6YWxpMTIzIiwiYSI6ImNsbWs5YTNudzAwY3oya3Ria3prd2lqdXMifQ.VEW3TVmMWLCwuGvwCzX0YQ";
 
 interface RoomDetailsProps {
-  room: Room;
+  room: RoomDocument;
 }
 
 const RoomDetails = ({ room }: RoomDetailsProps) => {
+  useEffect(() => {
+    const setMap = async () => {
+      const coordinates = room?.location?.coordinates;
+      const map = new mapboxgl.Map({
+        container: "room-map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        zoom: 12,
+        center: coordinates,
+      });
+
+      new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+    };
+
+    setMap();
+  }, []);
+  console.log(room?.location?.coordinates);
+
   return (
     <PaddingContainer>
       <div className="flex flex-col gap-4 my-5 justify-start items-start">
@@ -62,7 +85,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
           <div className="w-full">
             <div className="border border-gray-600 rounded-md shadow-md bg-white py-4 px-10 flex flex-col items-center justify-center gap-4">
               <div>$ {room.pricePerNight} / Night</div>
-              <button className="bg-blue-500 rounded-md px-3 py-2 w-full">
+              <button className="bg-blue-400 hover:text-white hover:font-semibold transition hover:bg-blue-700 duration-150 ease-in-out rounded-md px-3 py-2 w-full">
                 Pay
               </button>
             </div>
@@ -71,7 +94,12 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
 
         <div className="flex flex-col md:flex-row gap-5 justify-between items-center w-full">
           <RoomFeatures room={room} />
-          <div className="w-full bg-gray-400 rounded-md h-[300px]"></div>
+          {room?.location && (
+            <div
+              id="room-map"
+              className="w-full min-h-[300px] rounded-md shadow-md bg-gray-300"
+            ></div>
+          )}
         </div>
       </div>
     </PaddingContainer>
