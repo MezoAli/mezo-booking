@@ -1,8 +1,7 @@
 import RoomDetails from "@/components/RoomDetails";
-import { Room } from "@/types/roomTypes";
 import { notFound } from "next/navigation";
 import axios from "axios";
-import Header from "@/components/Header";
+import { RoomDocument } from "@/models/roomModel";
 interface RoomPageProps {
   params: {
     roomId: string;
@@ -24,14 +23,14 @@ const getRoomData = async (roomId: string) => {
 
 export async function generateStaticParams() {
   const response = await axios.get(`${process.env.SITE_URL}/api/rooms`);
-  return response.data?.rooms?.map((room: Room) => ({
+  return response.data?.rooms?.map((room: RoomDocument) => ({
     roomId: room?._id,
   }));
 }
 
 export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
   const roomData = await getRoomData(roomId);
-  const room: Room = roomData.room;
+  const room: RoomDocument = roomData.room;
   return {
     title: room?.name,
     description: room?.description,
@@ -40,7 +39,7 @@ export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
 
 const RoomPage = async ({ params: { roomId } }: RoomPageProps) => {
   const roomData = await getRoomData(roomId);
-  const room: Room = roomData.room;
+  const room: RoomDocument = roomData.room;
   console.log(room);
   if (!room) {
     notFound();
