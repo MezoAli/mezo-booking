@@ -1,7 +1,6 @@
-import { Rooms, Room } from "@/types/roomTypes";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: Rooms = {
+const initialState: any = {
   rooms: [] || undefined,
   totalRoomsCount: 0,
   filteredRoomsCount: 0,
