@@ -4,10 +4,10 @@ import { TbToolsKitchen2, TbAirConditioning } from "react-icons/tb";
 import { AiOutlineWifi } from "react-icons/ai";
 import { MdFreeBreakfast, MdPets } from "react-icons/md";
 import { GiVacuumCleaner } from "react-icons/gi";
-import { Room } from "@/types/roomTypes";
+import { RoomDocument } from "@/models/roomModel";
 
 interface RoomFeaturesProps {
-  room: Room;
+  room: RoomDocument;
 }
 
 const RoomFeatures = ({ room }: RoomFeaturesProps) => {

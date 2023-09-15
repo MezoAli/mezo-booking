@@ -1,10 +1,10 @@
-import { Room } from "@/types/roomTypes";
+import { RoomDocument } from "@/models/roomModel";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineStar } from "react-icons/ai";
 
 interface RoomCardProps {
-  room: Room;
+  room: RoomDocument;
 }
 
 const RoomCard = ({ room }: RoomCardProps) => {
