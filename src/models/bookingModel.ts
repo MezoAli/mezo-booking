@@ -1,4 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+
+export interface Booking extends Document {
+  user: mongoose.Schema.Types.ObjectId;
+  room: mongoose.Schema.Types.ObjectId;
+  checkInDate: Date;
+  checkOutDate: Date;
+  paidAt: Date;
+  daysOfStay: number;
+  amountPaid: number;
+  paymentInfo: {
+    id: string;
+    status: string;
+  };
+}
 
 const bookingSchema = new mongoose.Schema(
   {
@@ -49,6 +63,7 @@ const bookingSchema = new mongoose.Schema(
 );
 
 const Booking =
-  mongoose.models.bookings || mongoose.model("bookings", bookingSchema);
+  mongoose.models.bookings ||
+  mongoose.model<Booking>("bookings", bookingSchema);
 
 export default Booking;

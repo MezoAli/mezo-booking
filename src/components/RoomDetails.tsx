@@ -10,6 +10,7 @@ import { RoomDocument } from "@/models/roomModel";
 import { useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import StarRatings from "react-star-ratings";
+import RoomRating from "./RoomRating";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -18,7 +19,6 @@ interface RoomDetailsProps {
 }
 
 const RoomDetails = ({ room }: RoomDetailsProps) => {
-  const [rating, setRating] = useState(room?.ratings);
   useEffect(() => {
     const setMap = async () => {
       const coordinates = room?.location?.coordinates;
@@ -49,22 +49,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
         <div className="flex justify-center items-center gap-6">
           <div>
             <div className="flex gap-2 justify-center items-center text-yellow-600 text-lg">
-              {/* {[...Array(5)].map((index) => {
-                return (
-                  <div key={index}>
-                    <AiOutlineStar />
-                  </div>
-                );
-              })} */}
-              {room?.ratings && (
-                <StarRatings
-                  rating={rating}
-                  starRatedColor="#EC194E"
-                  // changeRating={this.changeRating}
-                  starDimension="30px"
-                  numberOfStars={5}
-                />
-              )}
+              {room?.ratings && <RoomRating rating={room?.ratings} />}
             </div>
           </div>
           <div>{room?.numOfReviews} Reviews</div>
