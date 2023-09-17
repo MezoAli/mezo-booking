@@ -14,7 +14,7 @@ export interface Booking extends Document {
   };
 }
 
-const bookingSchema = new mongoose.Schema(
+const bookingSchema = new mongoose.Schema<Booking>(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,11 +26,11 @@ const bookingSchema = new mongoose.Schema(
       require: true,
       ref: "rooms",
     },
-    chechInDate: {
+    checkInDate: {
       type: Date,
       require: true,
     },
-    chechOutDate: {
+    checkOutDate: {
       type: Date,
       require: true,
     },

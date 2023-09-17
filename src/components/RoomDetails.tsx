@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import StarRatings from "react-star-ratings";
 import RoomRating from "./RoomRating";
+import DatePicker from "./DatePicker";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -72,19 +73,14 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
           })}
         </Carousel>
 
-        <div className="flex flex-col md:flex-row gap-5 justify-between items-center flex-nowrap">
-          <div>
+        <div className="flex flex-col md:flex-row gap-3 justify-between items-center flex-nowrap">
+          <div className="w-full md:w-[65%]">
             <div className="font-semibold text-xl mb-4">Description</div>
             <div className="text-md text-gray-600">{room.description}</div>
           </div>
 
-          <div className="w-full">
-            <div className="border border-gray-600 rounded-md shadow-md bg-white py-4 px-10 flex flex-col items-center justify-center gap-4">
-              <div>$ {room.pricePerNight} / Night</div>
-              <button className="bg-blue-400 hover:text-white hover:font-semibold transition hover:bg-blue-700 duration-150 ease-in-out rounded-md px-3 py-2 w-full">
-                Pay
-              </button>
-            </div>
+          <div className="w-full md:w-[35%]">
+            <DatePicker room={room} />
           </div>
         </div>
 
