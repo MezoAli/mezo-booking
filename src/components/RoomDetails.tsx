@@ -50,7 +50,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
         <div className="flex justify-center items-center gap-6">
           <div>
             <div className="flex gap-2 justify-center items-center text-yellow-600 text-lg">
-              {room?.ratings && <RoomRating rating={room?.ratings} />}
+              {room?.ratings ? <RoomRating rating={room?.ratings} /> : ""}
             </div>
           </div>
           <div>{room?.numOfReviews} Reviews</div>

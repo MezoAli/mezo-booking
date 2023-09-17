@@ -60,6 +60,8 @@ export async function PATCH(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get("id");
+    const token = await getToken({ req });
+    console.log("token : ", token);
 
     const user = await User.findById(id).select("-password");
 

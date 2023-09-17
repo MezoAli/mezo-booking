@@ -26,7 +26,7 @@ const RoomCard = ({ room }: RoomCardProps) => {
           <b>${room?.pricePerNight}</b> / night
         </p>
         <div className="flex gap-2 justify-center items-center">
-          {room?.ratings && <RoomRating rating={room?.ratings} />}
+          {room?.ratings ? <RoomRating rating={room?.ratings} /> : ""}
         </div>
         <span id="no_of_reviews">({room?.reviews?.length} Reviews)</span>
 
