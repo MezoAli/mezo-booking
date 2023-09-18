@@ -5,7 +5,7 @@ import { RoomDocument } from "@/models/roomModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
@@ -21,7 +21,24 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
   const [daysOfStay, setDaysOfStay] = useState(0);
   const [loading, setLoading] = useState(false);
   const [roomAvalability, setRoomAvalability] = useState("");
+  const [bookedDates, setBokedDates] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const getBokedDates = async () => {
+      const response = await axios.get("/api/booking/getBokedDates", {
+        params: { roomId: room?._id },
+      });
+      console.log(response.data);
+      const dates = response.data?.bookedDates.map(
+        (item: any) => new Date(item)
+      );
+      setBokedDates(dates);
+    };
+
+    getBokedDates();
+  }, []);
+
   const onChange = async (dates: Date[]) => {
     const [checkInDate, checkOutDate] = dates;
     setCheckInDate(checkInDate);
@@ -84,12 +101,12 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
         </div>
         <div className="border-b w-full h-2 mb-4" />
         <DatePicker
-          selected={checkInDate}
+          // selected={checkInDate}
           onChange={onChange}
           startDate={checkInDate}
           endDate={checkOutDate}
           minDate={new Date()}
-          // excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
+          excludeDates={bookedDates}
           selectsRange
           inline
         />
@@ -101,7 +118,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
                 : "text-red-700"
             }`}
           >
-            The Room Is {roomAvalability} during this period
+            The Room Is {roomAvalability}
           </p>
         ) : (
           ""
