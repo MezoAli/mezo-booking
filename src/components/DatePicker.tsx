@@ -29,7 +29,6 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
       const response = await axios.get("/api/booking/getBokedDates", {
         params: { roomId: room?._id },
       });
-      console.log(response.data);
       const dates = response.data?.bookedDates.map(
         (item: any) => new Date(item)
       );

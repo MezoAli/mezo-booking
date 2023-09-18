@@ -17,12 +17,3 @@ declare module "next-auth" {
     };
   }
 }
-
-// var transport = nodemailer.createTransport({
-//   host: "sandbox.smtp.mailtrap.io",
-//   port: 2525,
-//   auth: {
-//     user: "294f54f020b092",
-//     pass: "ec359692f7f3c3"
-//   }
-// });
