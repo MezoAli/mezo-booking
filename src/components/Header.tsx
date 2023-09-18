@@ -7,7 +7,6 @@ import UserSettings from "./UserSettings";
 
 const Header = () => {
   const { data: session, status } = useSession();
-  console.log(session);
 
   return (
     <div className="border-b mb-4 z-50 sticky top-0 left-0 bg-white/30 backdrop-blur-sm">

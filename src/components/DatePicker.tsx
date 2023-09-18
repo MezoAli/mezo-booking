@@ -4,6 +4,7 @@ import calculateDaysOfStay from "@/lib/calculateDaysOfStay";
 import { RoomDocument } from "@/models/roomModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,13 +20,33 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
   const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
   const [daysOfStay, setDaysOfStay] = useState(0);
   const [loading, setLoading] = useState(false);
-  const onChange = (dates: Date[]) => {
+  const [roomAvalability, setRoomAvalability] = useState("");
+  const router = useRouter();
+  const onChange = async (dates: Date[]) => {
     const [checkInDate, checkOutDate] = dates;
     setCheckInDate(checkInDate);
     setCheckOutDate(checkOutDate);
     if (checkInDate && checkOutDate) {
       const days = calculateDaysOfStay(checkInDate, checkOutDate);
       setDaysOfStay(days);
+      const filters = {
+        roomId: room?._id,
+        checkInDate: checkInDate.toISOString(),
+        checkOutDate: checkOutDate?.toISOString(),
+      };
+      try {
+        const response = await axios.get("/api/booking/check", {
+          params: filters,
+        });
+        console.log(response.data);
+        if (response.data.isAvailable) {
+          setRoomAvalability("Available");
+        } else {
+          setRoomAvalability("Not Available");
+        }
+      } catch (error: any) {
+        console.log(error.response.data.message);
+      }
     }
   };
 
@@ -48,6 +69,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
       setLoading(true);
       const response = await axios.post("/api/booking", reqBody);
       toast.success(response.data.message);
+      router.push("/");
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
@@ -71,13 +93,30 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
           selectsRange
           inline
         />
-        <button
-          onClick={handleBooking}
-          disabled={loading}
-          className="bg-blue-400 hover:text-white hover:font-semibold transition hover:bg-blue-700 duration-150 ease-in-out rounded-md px-3 py-2 w-full"
-        >
-          {loading ? "Loading..." : "Pay"}
-        </button>
+        {roomAvalability ? (
+          <p
+            className={`text-sm ${
+              roomAvalability === "Available"
+                ? "text-green-600"
+                : "text-red-700"
+            }`}
+          >
+            The Room Is {roomAvalability} during this period
+          </p>
+        ) : (
+          ""
+        )}
+        {roomAvalability === "Available" ? (
+          <button
+            onClick={handleBooking}
+            disabled={loading}
+            className="bg-blue-400 hover:text-white hover:font-semibold transition hover:bg-blue-700 duration-150 ease-in-out rounded-md px-3 py-2 w-full"
+          >
+            {loading ? "Loading..." : "Pay"}
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

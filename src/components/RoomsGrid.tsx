@@ -6,14 +6,6 @@ import { addAllRooms } from "@/redux/slices/roomsSlice";
 import Pagination from "react-js-pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// interface RoomsDocument {
-
-// }
-
-// interface RoomGridProps {
-//   data: Room;
-// }
-
 const RoomsGrid = ({ data }: any) => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page");

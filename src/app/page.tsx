@@ -41,8 +41,6 @@ export default async function Home({ params, searchParams }: HomePageProps) {
     searchParams.category
   );
 
-  // console.log(data);
-
   return (
     <PaddingContainer>
       <div className="flex justify-between items-center text-2xl my-6">
