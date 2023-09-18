@@ -1,5 +1,6 @@
 "use client";
 
+import calculateDaysOfStay from "@/lib/calculateDaysOfStay";
 import { RoomDocument } from "@/models/roomModel";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -16,11 +17,16 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
   const { data: session } = useSession();
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
+  const [daysOfStay, setDaysOfStay] = useState(0);
   const [loading, setLoading] = useState(false);
   const onChange = (dates: Date[]) => {
     const [checkInDate, checkOutDate] = dates;
     setCheckInDate(checkInDate);
     setCheckOutDate(checkOutDate);
+    if (checkInDate && checkOutDate) {
+      const days = calculateDaysOfStay(checkInDate, checkOutDate);
+      setDaysOfStay(days);
+    }
   };
 
   const handleBooking = async () => {
@@ -30,8 +36,8 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
       checkInDate,
       checkOutDate,
       paidAt: new Date(),
-      daysOfStay: 3,
-      amountPaid: 3 * room?.pricePerNight,
+      daysOfStay,
+      amountPaid: daysOfStay * room?.pricePerNight,
       paymentInfo: {
         id: "12345678",
         status: "success",
@@ -61,7 +67,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
           startDate={checkInDate}
           endDate={checkOutDate}
           minDate={new Date()}
-          //   excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
+          // excludeDates={[addDays(new Date(), 1), addDays(new Date(), 5)]}
           selectsRange
           inline
         />
