@@ -1,6 +1,9 @@
+import connectDB from "@/config/connectDB";
 import Booking from "@/models/bookingModel";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+
+connectDB();
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,4 +24,19 @@ export async function POST(req: NextRequest) {
   }
 }
 
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
 
+    const id = searchParams.get("bookingId");
+
+    const booking = await Booking.findById(id).populate("user room");
+
+    return NextResponse.json(
+      { message: "Get Booking Successfully", booking },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}

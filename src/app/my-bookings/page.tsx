@@ -16,7 +16,6 @@ const getUserBookings = async (userId: string) => {
 const MyBookings = async () => {
   const session = await getServerSession(OPTIONS);
   const userBookings = await getUserBookings(session?.user?._id as string);
-  console.log(userBookings);
 
   return (
     <PaddingContainer>
