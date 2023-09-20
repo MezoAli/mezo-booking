@@ -1,0 +1,70 @@
+"use client";
+import { IBooking } from "@/models/bookingModel";
+import { AiOutlineEye } from "react-icons/ai";
+
+interface MyBookingsTableProps {
+  bookings: IBooking[];
+}
+
+const MyBookingsTable = ({ bookings }: MyBookingsTableProps) => {
+  return (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="px-6 py-3">
+              Booking Id
+            </th>
+            <th scope="col" className="px-6 py-3">
+              CheckIn Date
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Checkout Date
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Days Of Stay
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Amount Paid
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookings?.map((item) => {
+            return (
+              <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <th
+                  scope="row"
+                  className="px-6 truncate py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {item._id}
+                </th>
+                <td className="px-6 py-4">
+                  {new Date(item.checkInDate).toLocaleString("en-US")}
+                </td>
+                <td className="px-6 py-4">
+                  {new Date(item.checkOutDate).toLocaleString()}
+                </td>
+                <td className="px-6 py-4">{item.daysOfStay}</td>
+                <td className="px-6 py-4">{item.amountPaid}</td>
+                <td className="px-6 py-4 flex justify-between gap-3 items-center">
+                  <button className="px-4 py-2 bg-green-600 rounded-md text-white hover:bg-green-900 transition duration-150 ease-in-out">
+                    View
+                  </button>
+                  <button className="px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out">
+                    Invoice
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default MyBookingsTable;
