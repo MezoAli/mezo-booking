@@ -17,7 +17,6 @@ const getInvoiceDetails = async (id: string) => {
 
 const InvoiceDetailsPage = async ({ params }: BookingDetailsProps) => {
   const data = await getInvoiceDetails(params.bookingId);
-  console.log(data);
 
   return (
     <PaddingContainer>

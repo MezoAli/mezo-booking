@@ -1,39 +1,53 @@
 "use client";
-
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import { IBooking } from "@/models/bookingModel";
 import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 
 interface InvoiceProps {
   booking: IBooking;
 }
 
 const InvoiceDetails = ({ booking }: InvoiceProps) => {
-  //   const handleDownload = () => {
-  //     const input = document.getElementById("booking_invoice");
-  //     if (input) {
-  //       html2canvas(input).then((canvas) => {
-  //         const imgData = canvas.toDataURL("image/png");
+  const [loading, setLoading] = useState(false);
+  const handleDownload = () => {
+    setLoading(true);
+    const input = document.getElementById("booking_invoice");
+    if (input) {
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
 
-  //         const pdf = new jsPDF();
-  //         const pdfWidth = pdf.internal.pageSize.getWidth();
-  //         pdf.addImage(imgData, 0, 0, pdfWidth, 0);
-  //         pdf.save(`invoice_${booking?._id}.pdf`);
-  //       });
-  //     }
-  //   };
+        const pdf = new jsPDF();
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        pdf.addImage(imgData, 0, 0, pdfWidth, 0);
+        pdf.save(`invoice_${booking?._id}.pdf`);
+        setLoading(false);
+      });
+    }
+  };
 
   return (
     <div className="my-5">
       <div className="flex justify-center items-center my-4">
-        <button className="bg-green-500 text-white px-4 py-2 rounded-md text-xl hover:bg-green-800 transition duration-150 ease-in-out">
-          Download Invoice
+        <button
+          onClick={handleDownload}
+          className="bg-green-500 text-white px-4 py-2 rounded-md text-xl hover:bg-green-800 transition duration-150 ease-in-out"
+        >
+          {loading ? "Downloading..." : "Download Invoice"}
         </button>
       </div>
-      <div className="px-5">
-        <div id="booking_invoice" className="px-4 border shadow-md">
+      <div className="px-5" id="booking_invoice">
+        <div className="px-4 border shadow-md">
           <header className="">
-            <div id="logo" className="my-4 flex justify-center items-center">
-              <img src="/images/bookit_logo.png" />
+            <div className="my-4 flex justify-center items-center">
+              <Image
+                alt="mezo-booking-logo"
+                src="/images/bookit_logo.png"
+                width={150}
+                height={150}
+              />
             </div>
             <h1 className="text-center border bg-gray-300 py-3 font-bold text-2xl">
               INVOICE # {booking?._id}
@@ -53,7 +67,7 @@ const InvoiceDetails = ({ booking }: InvoiceProps) => {
                   </Link>
                 </div>
               </div>
-              <div id="project">
+              <div>
                 <div>
                   <span>Name : </span> {booking?.user?.name}
                 </div>
@@ -70,7 +84,7 @@ const InvoiceDetails = ({ booking }: InvoiceProps) => {
               </div>
             </div>
           </header>
-          <main>
+          <main className="w-full">
             <table className="w-full text-sm text-left text-gray-500 overflow-x-scroll my-4">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
@@ -111,15 +125,15 @@ const InvoiceDetails = ({ booking }: InvoiceProps) => {
                 </tr>
               </tbody>
             </table>
-            <div id="notices">
+            <div>
               <div>NOTICE:</div>
-              <div className="notice">
+              <div>
                 A finance charge of 1.5% will be made on unpaid balances after
                 30 days.
               </div>
             </div>
           </main>
-          <footer className="pb-5">
+          <footer>
             Invoice was created on a computer and is valid without the
             signature.
           </footer>

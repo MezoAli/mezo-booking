@@ -21,6 +21,8 @@
     "cloudinary": "^1.40.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "mapbox-gl": "^2.15.0",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
