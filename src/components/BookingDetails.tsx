@@ -15,7 +15,7 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
             <h2 className="text-2xl font-semibold">Booking # {booking?._id}</h2>
             <Link
               className="px-3 py-2 rounded-md text-white bg-green-600 hover:bg-green-900 transition duration-150 ease-out"
-              href={`/bookings/invoice/${booking?._id}`}
+              href={`/my-bookings/invoice/${booking?._id}`}
             >
               Invoice
             </Link>
@@ -92,7 +92,7 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
                 />
               </div>
 
-              <div className="hover:underline">
+              <div className="hover:underline text-blue-600">
                 <Link href={`/rooms/${booking?.room?._id}`}>
                   {booking?.room?.name}
                 </Link>

@@ -67,9 +67,12 @@ const MyBookingsTable = ({ bookings }: MyBookingsTableProps) => {
                     >
                       View
                     </Link>
-                    <button className="px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out">
+                    <Link
+                      href={`/my-bookings/invoice/${item._id}`}
+                      className="px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out"
+                    >
                       Invoice
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               );
