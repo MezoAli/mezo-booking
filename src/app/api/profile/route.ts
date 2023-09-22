@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Get User Data Successfully", user },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
