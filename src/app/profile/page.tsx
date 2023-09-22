@@ -2,12 +2,15 @@ import axios from "axios";
 import { OPTIONS } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import RegisterForm from "@/components/RegisterForm";
-import Header from "@/components/Header";
+import { setHeadersToken } from "@/lib/setHeadersToken";
 
 const getUserData = async (id: string) => {
+  const headers = setHeadersToken();
   const response = await axios.get(
-    `${process.env.SITE_URL}/api/profile?id=${id}`
+    `${process.env.SITE_URL}/api/profile?id=${id}`,
+    headers
   );
+
   return response.data;
 };
 

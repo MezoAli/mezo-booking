@@ -8,7 +8,6 @@ const getUserBookings = async (userId: string) => {
   const response = await axios.get(`${process.env.SITE_URL}/api/booking/me`, {
     params: { userId },
   });
-  console.log("response : ", response);
 
   return response.data?.userBookings;
 };

@@ -62,6 +62,9 @@ export async function GET(req: NextRequest) {
     const id = req.nextUrl.searchParams.get("id");
     const token = await getToken({ req });
     console.log("token : ", token);
+    if (!token) {
+      throw new Error("no token available");
+    }
 
     const user = await User.findById(id).select("-password");
 
