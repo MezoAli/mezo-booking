@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 const getAuthCookieName = () => {
   return process.env.NODE_ENV === "production"
-    ? " __Secure-next-auth.session-token"
+    ? "__Secure-next-auth.session-token"
     : "next-auth.session-token";
 };
 export function setHeadersToken() {
