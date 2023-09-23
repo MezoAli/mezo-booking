@@ -6,7 +6,7 @@ interface BookingDetailsProps {
   booking: IBooking;
 }
 const BookingDetails = ({ booking }: BookingDetailsProps) => {
-  const isPaid = booking?.paymentInfo?.status === "success" ? true : false;
+  const isPaid = booking?.paymentInfo?.status === "paid" ? true : false;
   return (
     <div className="container">
       <div className="row d-flex justify-content-center">

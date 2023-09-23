@@ -36,7 +36,6 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
       setMap();
     }
   }, []);
-  console.log(room?.location?.coordinates);
 
   return (
     <PaddingContainer>

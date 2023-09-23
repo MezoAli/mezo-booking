@@ -18,18 +18,18 @@ export async function GET(req: NextRequest) {
     const room: RoomDocument | null = await Room.findById(roomId);
 
     const session = await stripe.checkout.sessions.create({
-      Payment_method_type: ["card"],
+      payment_method_types: ["card"],
       success_url: `${process.env.SITE_URL}/my-bookings`,
       cancel_url: `${process.env.SITE_URL}/rooms/${roomId}`,
       customer_email: userSession?.user.email,
-      client_reference_id: roomId,
-      metadata: { checkInDate, checkOutDate, daysOfStay },
+      client_reference_id: crypto.randomUUID(),
+      metadata: { checkInDate, checkOutDate, daysOfStay, roomId },
       mode: "payment",
       line_items: [
         {
           price_data: {
             currency: "usd",
-            unit_amount: Number(pricePerNight) * 100,
+            unit_amount: Number(pricePerNight) * Number(daysOfStay) * 100,
             product_data: {
               name: room?.name,
               description: room?.description,

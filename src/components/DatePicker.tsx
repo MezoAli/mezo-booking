@@ -65,33 +65,22 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
       }
     }
   };
-
   const handleBooking = async () => {
-    const reqBody = {
-      room: room?._id,
-      user: session?.user?._id,
-      checkInDate,
-      checkOutDate,
-      paidAt: new Date(),
+    setLoading(true);
+    const params = {
+      roomId: room?._id,
+      checkInDate: checkInDate.toISOString(),
+      checkOutDate: checkOutDate?.toDateString(),
       daysOfStay,
-      amountPaid: daysOfStay * room?.pricePerNight,
-      paymentInfo: {
-        id: "12345678",
-        status: "success",
-      },
+      pricePerNight: room?.pricePerNight,
     };
-
-    try {
-      setLoading(true);
-      const response = await axios.post("/api/booking", reqBody);
-      toast.success(response.data.message);
-      router.push("/");
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
+    const response = await axios.get("/api/payment/checkoutSession", {
+      params,
+    });
+    setLoading(false);
+    router.replace(response?.data?.session?.url);
   };
+
   return (
     <>
       <div className="border border-gray-600 rounded-md shadow-md bg-white py-4 px-10 flex flex-col items-center justify-center gap-4">
@@ -100,7 +89,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
         </div>
         <div className="border-b w-full h-2 mb-4" />
         <DatePicker
-          // selected={checkInDate}
+          selected={checkInDate}
           onChange={onChange}
           startDate={checkInDate}
           endDate={checkOutDate}
@@ -128,7 +117,8 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
             disabled={loading}
             className="bg-blue-400 hover:text-white hover:font-semibold transition hover:bg-blue-700 duration-150 ease-in-out rounded-md px-3 py-2 w-full"
           >
-            {loading ? "Loading..." : "Pay"}
+            {loading ? "Loading..." : "Pay"} - $
+            {roomAvalability && room?.pricePerNight * daysOfStay}
           </button>
         ) : (
           ""
