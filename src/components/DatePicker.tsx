@@ -15,7 +15,7 @@ interface DatePickerProps {
 }
 
 const DatePickerComponent = ({ room }: DatePickerProps) => {
-  const { data: session } = useSession();
+  const { status } = useSession();
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState<Date | null>(null);
   const [daysOfStay, setDaysOfStay] = useState(0);
@@ -111,7 +111,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
         ) : (
           ""
         )}
-        {roomAvalability === "Available" ? (
+        {roomAvalability === "Available" && status === "authenticated" ? (
           <button
             onClick={handleBooking}
             disabled={loading}
@@ -122,6 +122,11 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
           </button>
         ) : (
           ""
+        )}
+        {roomAvalability === "Available" && status === "unauthenticated" && (
+          <span className="text-sm text-red-500">
+            Log In First To Book A room
+          </span>
         )}
       </div>
     </>

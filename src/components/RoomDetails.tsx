@@ -12,6 +12,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import StarRatings from "react-star-ratings";
 import RoomRating from "./RoomRating";
 import DatePicker from "./DatePicker";
+import RoomReviews from "./RoomReviews";
+import ReviewModel from "./ReviewModel";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
@@ -20,6 +22,8 @@ interface RoomDetailsProps {
 }
 
 const RoomDetails = ({ room }: RoomDetailsProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     const setMap = async () => {
       const coordinates = room?.location?.coordinates;
@@ -39,6 +43,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
 
   return (
     <PaddingContainer>
+      <ReviewModel isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="flex flex-col gap-4 my-5 justify-start items-start">
         <h2 className="text-xl font-bold">{room.name}</h2>
 
@@ -92,6 +97,7 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
             ></div>
           )}
         </div>
+        <RoomReviews reviews={room?.reviews} setIsOpen={setIsOpen} />
       </div>
     </PaddingContainer>
   );

@@ -11,9 +11,8 @@ interface Location {
   country: string;
 }
 
-interface Review extends Document {
+export interface IReview extends Document {
   user: mongoose.Schema.Types.ObjectId;
-  name: string;
   comment: string;
   rating: number;
 }
@@ -40,7 +39,7 @@ export interface RoomDocument extends Document {
   category: "Single" | "Twins" | "King";
   user?: mongoose.Schema.Types.ObjectId | null;
   location: Location;
-  reviews: Review[];
+  reviews: IReview[];
   images: Image[];
 }
 
@@ -135,10 +134,6 @@ const roomSchema = new mongoose.Schema<RoomDocument>(
         user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "users",
-          require: true,
-        },
-        name: {
-          type: String,
           require: true,
         },
         comment: {
