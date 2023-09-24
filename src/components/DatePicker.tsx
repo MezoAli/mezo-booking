@@ -36,7 +36,7 @@ const DatePickerComponent = ({ room }: DatePickerProps) => {
     };
 
     getBokedDates();
-  }, []);
+  }, [room?._id]);
 
   const onChange = async (dates: Date[]) => {
     const [checkInDate, checkOutDate] = dates;

@@ -20,7 +20,10 @@ const RoomReviews = ({ reviews, setIsOpen }: RoomReviewsProps) => {
       <div className="flex flex-col w-full gap-3">
         {reviews?.map((review) => {
           return (
-            <div className="flex gap-4 border-b py-3 items-start">
+            <div
+              className="flex gap-4 border-b py-3 items-start"
+              key={review._id}
+            >
               <div className="h-10 w-10 bg-gray-500 rounded-full" />
               <div>
                 <RoomRating rating={review.rating} />

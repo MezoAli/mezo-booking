@@ -39,11 +39,11 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
     if (room?.location) {
       setMap();
     }
-  }, []);
+  }, [room?.location]);
 
   return (
     <PaddingContainer>
-      <ReviewModel isOpen={isOpen} setIsOpen={setIsOpen} />
+      <ReviewModel isOpen={isOpen} setIsOpen={setIsOpen} roomId={room?._id} />
       <div className="flex flex-col gap-4 my-5 justify-start items-start">
         <h2 className="text-xl font-bold">{room.name}</h2>
 

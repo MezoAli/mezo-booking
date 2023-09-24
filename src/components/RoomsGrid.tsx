@@ -24,7 +24,7 @@ const RoomsGrid = ({ data }: any) => {
         roomsPerPage: data?.roomsPerPage,
       })
     );
-  }, [data]);
+  }, [data, dispatch]);
 
   const handlePagination = (pageNum: number) => {
     let link = `/?page=${pageNum}`;
