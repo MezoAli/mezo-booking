@@ -1,6 +1,10 @@
+"use client";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { Fragment, useState, Dispatch, SetStateAction } from "react";
 import StarRatings from "react-star-ratings";
+import { toast } from "react-toastify";
 
 interface ReviewModelProps {
   isOpen: boolean;
@@ -15,8 +19,30 @@ const ReviewModel = ({ isOpen, setIsOpen, roomId }: ReviewModelProps) => {
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleAddReview = async () => {};
+  const handleAddReview = async () => {
+    try {
+      const reqBody = {
+        roomId,
+        comment,
+        rating,
+      };
+      setLoading(true);
+      const response = await axios.patch("/api/reviews", reqBody);
+      router.refresh();
+      closeModal();
+      console.log(response.data);
+
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      closeModal();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -74,10 +100,11 @@ const ReviewModel = ({ isOpen, setIsOpen, roomId }: ReviewModelProps) => {
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
+                    disabled={loading}
+                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 transition duration-150 ease-in-out focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    onClick={handleAddReview}
                   >
-                    Submit Review
+                    {loading ? "Submitting..." : "Submit Review"}
                   </button>
                 </div>
               </Dialog.Panel>

@@ -15,13 +15,9 @@ export async function GET(
   { params: { roomId } }: SingleRoomParams
 ) {
   try {
-    const room = await Room.findById(roomId);
+    const room = await Room.findById(roomId).populate("reviews.user");
     if (!room) {
       throw new Error("can't find room");
-      // return NextResponse.json(
-      //   { message: "can't find room with that ID" },
-      //   { status: 404 }
-      // );
     }
     return NextResponse.json(
       { message: "get room successfully", room },

@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
   const roomData = await getRoomData(roomId);
-  const room: RoomDocument = roomData.room;
+  const room: RoomDocument = roomData?.room;
   return {
     title: room?.name,
     description: room?.description,
@@ -39,7 +39,7 @@ export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
 
 const RoomPage = async ({ params: { roomId } }: RoomPageProps) => {
   const roomData = await getRoomData(roomId);
-  const room: RoomDocument = roomData.room;
+  const room: RoomDocument = roomData?.room;
   console.log(room);
   if (!room) {
     notFound();

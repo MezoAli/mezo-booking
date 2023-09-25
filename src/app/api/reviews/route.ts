@@ -2,12 +2,19 @@ import Room, { IReview, RoomDocument } from "@/models/roomModel";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { OPTIONS } from "../auth/[...nextauth]/route";
+import connectDB from "@/config/connectDB";
+
+connectDB();
 
 export async function PATCH(req: NextRequest) {
   try {
     const reqBody = await req.json();
 
     const session = await getServerSession(OPTIONS);
+
+    if (!session) {
+      throw new Error("Login First to Add A Review");
+    }
 
     const { roomId, comment, rating } = reqBody;
 
@@ -23,14 +30,15 @@ export async function PATCH(req: NextRequest) {
     room.numOfReviews = room.reviews.length;
 
     room.ratings =
-      room.reviews.reduce((acc: number, review: any) => {
-        return review.rating + acc, 0;
-      }) / room.reviews.length;
+      room.reviews.reduce(
+        (acc: number, review: any) => review.rating + acc,
+        0
+      ) / room.reviews.length;
 
-    room.save();
+    await room.save({ validateBeforeSave: false });
 
     return NextResponse.json(
-      { message: "Review Added Successfully" },
+      { message: "Review Added Successfully", room },
       { status: 201 }
     );
   } catch (error: any) {

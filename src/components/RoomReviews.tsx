@@ -1,5 +1,6 @@
 import RoomRating from "./RoomRating";
 import { IReview } from "@/models/roomModel";
+import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 
 interface RoomReviewsProps {
@@ -24,10 +25,19 @@ const RoomReviews = ({ reviews, setIsOpen }: RoomReviewsProps) => {
               className="flex gap-4 border-b py-3 items-start"
               key={review._id}
             >
-              <div className="h-10 w-10 bg-gray-500 rounded-full" />
+              <div className="h-10 w-10 bg-gray-500 rounded-full relative">
+                <Image
+                  src={review.user?.avatar?.url}
+                  alt={review.user?.name}
+                  className="rounded-full"
+                  fill
+                />
+              </div>
               <div>
                 <RoomRating rating={review.rating} />
-                <h3 className="text-sm text-gray-400">by {"Moutaz"}</h3>
+                <h3 className="text-sm text-gray-400">
+                  by {review?.user?.name}
+                </h3>
                 <p>{review.comment}</p>
               </div>
             </div>

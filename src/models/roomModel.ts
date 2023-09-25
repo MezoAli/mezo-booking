@@ -1,3 +1,4 @@
+import { User } from "@/types/userType";
 import geocoder from "../lib/geocoder";
 import mongoose, { Document, Schema, Types } from "mongoose";
 
@@ -12,7 +13,7 @@ interface Location {
 }
 
 export interface IReview extends Document {
-  user: mongoose.Schema.Types.ObjectId;
+  user: User;
   comment: string;
   rating: number;
 }
