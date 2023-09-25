@@ -97,7 +97,11 @@ const RoomDetails = ({ room }: RoomDetailsProps) => {
             ></div>
           )}
         </div>
-        <RoomReviews reviews={room?.reviews} setIsOpen={setIsOpen} />
+        <RoomReviews
+          reviews={room?.reviews}
+          setIsOpen={setIsOpen}
+          roomId={room?._id.toString()}
+        />
       </div>
     </PaddingContainer>
   );
