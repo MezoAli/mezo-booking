@@ -62,6 +62,19 @@ export default function UserSettings({ userId }: UserSettingProps) {
                     active ? "bg-[#EC194E] text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
+                  {user?.role === "admin" && (
+                    <Link href="/admin">Dashboard</Link>
+                  )}
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  className={`${
+                    active ? "bg-[#EC194E] text-white" : "text-gray-900"
+                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                >
                   <Link href="/my-bookings">My Bookings</Link>
                 </button>
               )}
