@@ -9,7 +9,7 @@ import { HiDocument } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
 const AdminSalesStats = () => {
   return (
-    <div className="flex flex-wrap lg:flex-nowrap justify-between gap-3 items-center my-2">
+    <div className="flex flex-wrap lg:flex-nowrap justify-between gap-3 items-center my-5">
       <div className="flex min-w-[220px] justify-between items-center px-[40px] gap-3 py-2 shadow-lg">
         <div className="text-3xl text-gray-500">
           <BsCurrencyDollar />

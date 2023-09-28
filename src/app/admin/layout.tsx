@@ -2,7 +2,7 @@ import PaddingContainer from "@/components/PaddingContainer";
 import { getServerSession } from "next-auth";
 import { OPTIONS } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import AdminSidebar from "@/components/AdminSidebar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
 async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(OPTIONS);
