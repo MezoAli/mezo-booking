@@ -10,19 +10,14 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
     redirect("/");
   }
   return (
-    <>
-      <h2 className="w-full bg-gray-50 text-gray-800 text-3xl text-center py-5">
-        Admin Dashboard
-      </h2>
-      <PaddingContainer>
-        <div className="grid grid-cols-12 gap-2 mt-3">
-          <div className="col-span-12 md:col-span-3 sticky md:relative bottom-0 top-[65px] left-0 z-40">
-            <AdminSidebar />
-          </div>
-          <div className="col-span-12 md:col-span-9">{children}</div>
+    <PaddingContainer>
+      <div className="grid grid-cols-12 gap-2 mt-3">
+        <div className="col-span-12 md:col-span-3 sticky md:relative bottom-0 top-[65px] left-0 z-40">
+          <AdminSidebar />
         </div>
-      </PaddingContainer>
-    </>
+        <div className="col-span-12 md:col-span-9">{children}</div>
+      </div>
+    </PaddingContainer>
   );
 }
 
