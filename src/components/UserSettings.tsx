@@ -63,7 +63,7 @@ export default function UserSettings({ userId }: UserSettingProps) {
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   {user?.role === "admin" && (
-                    <Link href="/admin">Dashboard</Link>
+                    <Link href="/admin/dashboard">Dashboard</Link>
                   )}
                 </button>
               )}
