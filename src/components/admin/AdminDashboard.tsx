@@ -91,6 +91,9 @@ const AdminDashboard = () => {
         numberOfBookings={numberOfBookings}
         totalSales={totalSales}
         usersCount={usersCount}
+        startDate={startDate}
+        endDate={endDate}
+        loading={loading}
       />
     </>
   );

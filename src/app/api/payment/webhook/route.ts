@@ -49,7 +49,6 @@ export async function POST(req: NextRequest) {
         daysOfStay,
         paymentInfo,
       });
-      console.log("booking :", booking);
 
       return NextResponse.json(
         { message: "Booking Created Successfully", booking },
