@@ -1,6 +1,57 @@
 import Booking from "@/models/bookingModel";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
+import { extendMoment } from "moment-range";
+import Moment from "moment";
+import connectDB from "@/config/connectDB";
+connectDB();
+
+const moment = extendMoment(Moment);
+
+const getLast6MonthsSales = async () => {
+  const last6MonthsSales: any = [];
+
+  const currentDate = moment();
+
+  const fetchMonthSales = async (
+    startOfMonth: moment.Moment,
+    endOfMonth: moment.Moment
+  ) => {
+    const result = await Booking.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startOfMonth.toDate(), $lte: endOfMonth.toDate() },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$amountPaid" },
+          numberOfBookings: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const { totalSales, numberOfBookings } =
+      result.length > 0 ? result[0] : { totalSales: 0, numberOfBookings: 0 };
+
+    last6MonthsSales.push({
+      totalSales,
+      numberOfBookings,
+      monthName: moment(startOfMonth).format("MMMM"),
+    });
+  };
+
+  for (let i = 0; i < 6; i++) {
+    const startOfMonth = moment(currentDate).startOf("month");
+    const endOfMonth = moment(currentDate).endOf("month");
+
+    await fetchMonthSales(startOfMonth, endOfMonth);
+
+    currentDate.subtract(1, "months");
+  }
+  return last6MonthsSales;
+};
 
 export async function GET(req: NextRequest) {
   try {
@@ -24,12 +75,16 @@ export async function GET(req: NextRequest) {
     );
 
     const usersCount = await User.countDocuments();
+
+    const lastMonthSales = await getLast6MonthsSales();
+
     return NextResponse.json(
       {
         message: "get booking successfully",
         bookingsNumber,
         totalSales,
         usersCount,
+        lastMonthSales,
       },
       { status: 200 }
     );

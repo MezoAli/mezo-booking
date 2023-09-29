@@ -5,12 +5,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import AdminSalesStats from "./AdminSalesStats";
+import SalesHistory from "./SalesHistory";
+import TopPerformaingRooms from "./TopPerofrmaingRooms";
 const AdminDashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [loading, setLoading] = useState(false);
   const [numberOfBookings, setNumberOfBookings] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
+  const [last6MonthsSales, setLast6MonthsSales] = useState([]);
   const [usersCount, setUsersCount] = useState(0);
 
   const handleSubmit = async () => {
@@ -26,6 +29,7 @@ const AdminDashboard = () => {
         setNumberOfBookings(response.data.bookingsNumber);
         setTotalSales(response.data.totalSales);
         setUsersCount(response.data.usersCount);
+        setLast6MonthsSales(response.data.lastMonthSales);
       } catch (error: any) {
         toast.error(error.response.data.message);
       } finally {
@@ -49,6 +53,7 @@ const AdminDashboard = () => {
       setNumberOfBookings(response.data.bookingsNumber);
       setTotalSales(response.data.totalSales);
       setUsersCount(response.data.usersCount);
+      setLast6MonthsSales(response.data.lastMonthSales);
     };
 
     getTodayData();
@@ -95,6 +100,10 @@ const AdminDashboard = () => {
         endDate={endDate}
         loading={loading}
       />
+      <div className="grid grid-cols-1 lg:grid-cols-2 my-4 py-2 gap-3 border-t">
+        <SalesHistory last6MonthsSales={last6MonthsSales} />
+        <TopPerformaingRooms />
+      </div>
     </>
   );
 };

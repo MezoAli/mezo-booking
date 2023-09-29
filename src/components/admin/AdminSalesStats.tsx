@@ -9,7 +9,6 @@ interface Props {
 import { BsCurrencyDollar } from "react-icons/bs";
 import { HiDocument } from "react-icons/hi";
 import { AiOutlineUser } from "react-icons/ai";
-import Moment from "moment";
 const AdminSalesStats = ({
   numberOfBookings,
   totalSales,

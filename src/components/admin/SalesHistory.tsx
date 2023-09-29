@@ -23,38 +23,66 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  interaction: {
+    mode: "index" as const,
+    intersect: false,
+  },
+  stacked: false,
   plugins: {
-    legend: {
-      position: "top" as const,
-    },
     title: {
       display: true,
-      text: "Last 6 Months Performance",
+      text: "Last 6 Months Sales And Bookings",
+    },
+  },
+  scales: {
+    y: {
+      type: "linear" as const,
+      display: true,
+      position: "left" as const,
+    },
+    y1: {
+      type: "linear" as const,
+      display: true,
+      position: "right" as const,
+      grid: {
+        drawOnChartArea: false,
+      },
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June"];
+interface SalesData {
+  totalSales: number;
+  numberOfBookings: number;
+  monthName: string;
+}
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Sales",
-      data: [12, 34, 67, 89, 32, 110],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Bookings",
-      data: [35, 75, 92, 62, 19, 99],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+interface Props {
+  last6MonthsSales: SalesData[];
+}
 
-function SalesHistory() {
+function SalesHistory({ last6MonthsSales }: Props) {
+  console.log(last6MonthsSales);
+  const data = {
+    labels: last6MonthsSales.map((item) => item.monthName).reverse(),
+    datasets: [
+      {
+        label: "Sales",
+        data: last6MonthsSales.map((item) => item.totalSales).reverse(),
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        yAxisID: "y",
+      },
+      {
+        label: "Bookings",
+        data: last6MonthsSales.map((item) => item.numberOfBookings).reverse(),
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        yAxisID: "y1",
+      },
+    ],
+  };
+
   return (
     <div className="flex items-center justify-center w-full flex-col gap-4">
       <h3 className="text-xl font-semibold">Sales History</h3>
