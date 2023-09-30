@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [numberOfBookings, setNumberOfBookings] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [last6MonthsSales, setLast6MonthsSales] = useState([]);
+  const [topRooms, setTopRooms] = useState([]);
   const [usersCount, setUsersCount] = useState(0);
 
   const handleSubmit = async () => {
@@ -30,6 +31,7 @@ const AdminDashboard = () => {
         setTotalSales(response.data.totalSales);
         setUsersCount(response.data.usersCount);
         setLast6MonthsSales(response.data.lastMonthSales);
+        setTopRooms(response.data.topRooms);
       } catch (error: any) {
         toast.error(error.response.data.message);
       } finally {
@@ -54,6 +56,7 @@ const AdminDashboard = () => {
       setTotalSales(response.data.totalSales);
       setUsersCount(response.data.usersCount);
       setLast6MonthsSales(response.data.lastMonthSales);
+      setTopRooms(response.data.topRooms);
     };
 
     getTodayData();
@@ -101,8 +104,10 @@ const AdminDashboard = () => {
         loading={loading}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 my-4 py-2 gap-3 border-t">
-        <SalesHistory last6MonthsSales={last6MonthsSales} />
-        <TopPerformaingRooms />
+        {last6MonthsSales.length > 0 && (
+          <SalesHistory last6MonthsSales={last6MonthsSales} />
+        )}
+        {topRooms.length > 0 && <TopPerformaingRooms topRooms={topRooms} />}
       </div>
     </>
   );

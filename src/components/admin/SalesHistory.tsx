@@ -62,7 +62,6 @@ interface Props {
 }
 
 function SalesHistory({ last6MonthsSales }: Props) {
-  console.log(last6MonthsSales);
   const data = {
     labels: last6MonthsSales.map((item) => item.monthName).reverse(),
     datasets: [
