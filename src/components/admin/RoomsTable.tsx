@@ -1,15 +1,22 @@
 "use client";
+import { RoomDocument } from "@/models/roomModel";
 import Link from "next/link";
+import { AiOutlineEdit, AiOutlineFileImage } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
-const RoomsTable = () => {
+interface RoomsTableProps {
+  rooms: RoomDocument[];
+}
+
+const RoomsTable = ({ rooms }: RoomsTableProps) => {
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
-      {Array.from({ length: 0 }).length === 0 && (
+      {rooms.length === 0 && (
         <p className="text-2xl text-center my-4 font-semibold">
           You Do Not Have Any Rooms
         </p>
       )}
-      {Array.from({ length: 4 }).length > 0 && (
+      {rooms.length > 0 && (
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -25,35 +32,35 @@ const RoomsTable = () => {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 4 })?.map((item) => {
+            {rooms.map((room) => {
               return (
                 <tr
-                  //   key={item._id}
+                  key={room?._id}
                   className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
                 >
                   <th
                     scope="row"
                     className="px-6 truncate py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    Room id
+                    {room?._id}
                   </th>
-                  <td className="px-6 py-4">Room Name</td>
+                  <td className="px-6 py-4 truncate">{room?.name}</td>
 
                   <td className="px-6 py-4 flex justify-center gap-1 items-center">
                     <Link
                       href={"#"}
-                      className="px-2 py-1 bg-green-600 rounded-md text-white hover:bg-green-900 transition duration-150 ease-in-out"
+                      className="px-2 py-1 text-xl bg-green-600 rounded-md text-white hover:bg-green-900 transition duration-150 ease-in-out"
                     >
-                      Update
+                      <AiOutlineEdit />
                     </Link>
                     <Link
                       href={"#"}
-                      className="px-2 py-1 bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out"
+                      className="px-2 py-1 text-xl bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out"
                     >
-                      Upload Images
+                      <AiOutlineFileImage />
                     </Link>
-                    <button className="px-2 py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out">
-                      Delete
+                    <button className="px-2 text-xl py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out">
+                      <BsTrash />
                     </button>
                   </td>
                 </tr>
