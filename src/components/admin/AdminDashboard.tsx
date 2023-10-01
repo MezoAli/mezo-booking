@@ -7,6 +7,7 @@ import axios from "axios";
 import AdminSalesStats from "./AdminSalesStats";
 import SalesHistory from "./SalesHistory";
 import TopPerformaingRooms from "./TopPerofrmaingRooms";
+import Loader from "../Loader";
 const AdminDashboard = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -104,10 +105,16 @@ const AdminDashboard = () => {
         loading={loading}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 my-4 py-2 gap-3 border-t">
-        {last6MonthsSales.length > 0 && (
+        {last6MonthsSales.length > 0 ? (
           <SalesHistory last6MonthsSales={last6MonthsSales} />
+        ) : (
+          <Loader />
         )}
-        {topRooms.length > 0 && <TopPerformaingRooms topRooms={topRooms} />}
+        {topRooms.length > 0 ? (
+          <TopPerformaingRooms topRooms={topRooms} />
+        ) : (
+          <Loader />
+        )}
       </div>
     </>
   );

@@ -1,5 +1,7 @@
+import RoomsTable from "@/components/admin/RoomsTable";
+
 const AdminRoomsPage = () => {
-  return <div>AdminRoomsPage</div>;
+  return <RoomsTable />;
 };
 
 export default AdminRoomsPage;

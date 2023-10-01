@@ -1,6 +1,7 @@
 "use client";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import moment from "moment";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -34,9 +35,13 @@ function TopPerformaingRooms({ topRooms }: Props) {
       },
     ],
   };
+  const currentDate = moment();
+  const month = moment(currentDate).format("MMMM");
   return (
     <div className="flex items-center justify-center w-full flex-col gap-4">
-      <h3 className="text-xl font-semibold">Top Performaing Rooms</h3>
+      <h3 className="text-sm font-semibold text-center">
+        Top Performaing Rooms for {month}
+      </h3>
       <Doughnut data={data} />
     </div>
   );
