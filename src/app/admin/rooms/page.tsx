@@ -7,7 +7,9 @@ const getAdminRooms = async () => {
     const headers = setHeadersToken();
     const response = await axios.get(
       `${process.env.SITE_URL}/api/admin/rooms`,
-      headers
+      {
+        headers: headers.headers,
+      }
     );
     return response.data;
   } catch (error: any) {

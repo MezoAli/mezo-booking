@@ -1,22 +1,40 @@
 "use client";
 import { RoomDocument } from "@/models/roomModel";
+import axios from "axios";
 import Link from "next/link";
 import { AiOutlineEdit, AiOutlineFileImage } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
 interface RoomsTableProps {
   rooms: RoomDocument[];
 }
 
 const RoomsTable = ({ rooms }: RoomsTableProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleDeleteRoom = async (roomId: string) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.delete("/api/admin/rooms", {
+        params: { roomId },
+      });
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="relative overflow-x-auto sm:rounded-lg">
-      {rooms.length === 0 && (
+      {rooms?.length === 0 && (
         <p className="text-2xl text-center my-4 font-semibold">
           You Do Not Have Any Rooms
         </p>
       )}
-      {rooms.length > 0 && (
+      {rooms?.length > 0 && (
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -59,8 +77,11 @@ const RoomsTable = ({ rooms }: RoomsTableProps) => {
                     >
                       <AiOutlineFileImage />
                     </Link>
-                    <button className="px-2 text-xl py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out">
-                      <BsTrash />
+                    <button
+                      onClick={() => handleDeleteRoom(room?._id)}
+                      className="px-2 text-xl py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out"
+                    >
+                      {isLoading ? "Deleting..." : <BsTrash />}
                     </button>
                   </td>
                 </tr>
