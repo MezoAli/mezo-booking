@@ -113,7 +113,7 @@ const roomSchema = new mongoose.Schema<RoomDocument>(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      require: false,
+      require: true,
     },
     location: {
       type: {

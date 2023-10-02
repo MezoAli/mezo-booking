@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
@@ -20,6 +21,7 @@ const NewRoom = () => {
   const [isRoomCleaning, setIsRoomCleaning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +38,7 @@ const NewRoom = () => {
       isAirConditioned,
       isPetsAllowed,
       isRoomCleaning,
+      user: session?.user?._id,
     };
     try {
       setIsLoading(true);

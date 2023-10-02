@@ -41,3 +41,20 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    const session = await getServerSession(OPTIONS);
+    if (session?.user?.role !== "admin") {
+      throw new Error("Only Admin Can Create New Room");
+    }
+    const reqBody = await req.json();
+    const room = await Room.create(reqBody);
+    return NextResponse.json(
+      { message: "Room Created Successfully", room },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
