@@ -10,10 +10,11 @@ export async function GET(req: NextRequest) {
     if (session?.user?.role !== "admin") {
       throw new Error("Only Admin Can Show This Route");
     }
+
     const rooms = await Room.find();
 
     return NextResponse.json(
-      { message: "get room successfully", rooms },
+      { message: "get rooms successfully", rooms },
       { status: 200 }
     );
   } catch (error: any) {
