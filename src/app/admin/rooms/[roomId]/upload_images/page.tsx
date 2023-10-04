@@ -1,3 +1,5 @@
+import UploadImageForm from "@/components/admin/UploadImageForm";
+
 interface UpdateRoomPageProps {
   params: {
     roomId: string;
@@ -5,7 +7,7 @@ interface UpdateRoomPageProps {
 }
 
 const UploadImagesPage = ({ params }: UpdateRoomPageProps) => {
-  return <div>UploadImagesPage id : {params.roomId}</div>;
+  return <UploadImageForm />;
 };
 
 export default UploadImagesPage;
