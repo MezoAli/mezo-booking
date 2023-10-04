@@ -30,12 +30,19 @@ export async function PATCH(
 ) {
   try {
     const reqBody = await req.json();
+    const path = req.nextUrl.searchParams.get("path");
+    if (!path) {
+      return NextResponse.json(
+        { message: "no path provided" },
+        { status: 500 }
+      );
+    }
 
     const room = await Room.findByIdAndUpdate(params.roomId, reqBody, {
       new: true,
     });
 
-    revalidatePath(`${process.env.SITE_URL}/admin/rooms`);
+    revalidatePath(path);
 
     return NextResponse.json(
       { message: "Room Data Updated Successfully", room },

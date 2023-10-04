@@ -1,21 +1,18 @@
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { v2 as cloudinary } from "cloudinary";
 import connectDB from "@/config/connectDB";
 import { getToken } from "next-auth/jwt";
+import { deleteImage, uploadImage } from "@/lib/cloudinary";
+import { getServerSession } from "next-auth";
+import { OPTIONS } from "../auth/[...nextauth]/route";
 
 connectDB();
-
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export async function PATCH(req: NextRequest) {
   try {
     let reqBody = await req.json();
+    const session = await getServerSession(OPTIONS);
 
     if (reqBody.password) {
       if (reqBody.password.length < 6) {
@@ -30,9 +27,13 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (reqBody.avatar) {
-      const result = await cloudinary.uploader.upload(reqBody.avatar, {
-        folder: "mezo-booking/avatars",
-      });
+      const oldUserAvatarPublicId = session?.user?.avatar?.public_id as string;
+
+      if (oldUserAvatarPublicId) {
+        await deleteImage(oldUserAvatarPublicId);
+      }
+
+      const result = await uploadImage(reqBody?.avatar, "mezo-booking/avatars");
       reqBody.avatar = {
         public_id: result.public_id,
         url: result.url,

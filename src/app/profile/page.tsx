@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import RegisterForm from "@/components/RegisterForm";
 import { setHeadersToken } from "@/lib/setHeadersToken";
 
+export const dynamic = "force-dynamic";
+
 const getUserData = async (id: string) => {
   const headers = setHeadersToken();
   const response = await axios.get(

@@ -19,7 +19,6 @@ const getAdminRooms = async () => {
 
 const AdminRoomsPage = async () => {
   const response = await getAdminRooms();
-  console.log(response);
 
   return <RoomsTable rooms={response?.rooms} />;
 };

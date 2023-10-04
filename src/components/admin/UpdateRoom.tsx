@@ -55,7 +55,12 @@ const UpdateRoomForm = ({ room }: UpdateRoomFormProps) => {
       setIsLoading(true);
       const response = await axios.patch(
         `/api/admin/rooms/${room?._id}`,
-        roomData
+        roomData,
+        {
+          params: {
+            path: `/admin/rooms`,
+          },
+        }
       );
       toast.success(response.data.message);
       router.push("/admin/rooms");

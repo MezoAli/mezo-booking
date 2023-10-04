@@ -3,15 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import connectDB from "@/config/connectDB";
-import { v2 as cloudinary } from "cloudinary";
+import { uploadImage } from "@/lib/cloudinary";
 
 connectDB();
-
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,9 +27,7 @@ export async function POST(req: NextRequest) {
     if (reqBody?.avatar) {
       const avatar: string = reqBody.avatar;
 
-      const result = await cloudinary.uploader.upload(avatar, {
-        folder: "mezo-booking/avatars",
-      });
+      const result = await uploadImage(avatar, "mezo-booking/avatars");
 
       reqBody.avatar = {
         public_id: result.public_id,
