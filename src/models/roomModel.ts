@@ -18,7 +18,7 @@ export interface IReview extends Document {
   rating: number;
 }
 
-interface Image {
+export interface Image {
   public_id: string;
   url: string;
 }
