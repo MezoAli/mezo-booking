@@ -3,7 +3,8 @@
 import { RoomDocument, Image as RoomImage } from "@/models/roomModel";
 import axios from "axios";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useState, FormEvent, useRef } from "react";
 import { toast } from "react-toastify";
 
 interface UploadImageFormProps {
@@ -17,7 +18,9 @@ const UploadImageForm = ({ room }: UploadImageFormProps) => {
     room?.images
   );
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [imageId, setImageId] = useState("");
+  const router = useRouter();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = e.target.files || [];
@@ -35,19 +38,42 @@ const UploadImageForm = ({ room }: UploadImageFormProps) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
+      e.preventDefault();
       setIsLoading(true);
       const response = await axios.patch(
         `/api/admin/rooms/${room?._id}/upload_images`,
         images
       );
       toast.success(response?.data?.message);
-      console.log(response.data);
+      setPreviewImages([]);
+      router.refresh();
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDeleteImage = async (public_id: string) => {
+    try {
+      setIsLoadingDelete(true);
+      setImageId(public_id);
+      const response = await axios.delete(
+        `/api/admin/rooms/${room?._id}/upload_images`,
+        {
+          params: { public_id },
+        }
+      );
+      console.log(response);
+
+      toast.success(response?.data?.message);
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      setIsLoadingDelete(false);
     }
   };
   return (
@@ -63,32 +89,38 @@ const UploadImageForm = ({ room }: UploadImageFormProps) => {
           onChange={(e) => handleChange(e)}
           placeholder="Choose Images"
         />
-        <button
-          type="submit"
-          className="bg-blue-400 rounded-md px-4 py-2 transition duration-150 ease-in-out hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700"
-        >
-          Submit
-        </button>
-      </form>
-      {previewImages.length > 0 && (
-        <div className="flex flex-col justify-start items-start gap-2 w-full py-3 border-b">
-          <p>Selected Images</p>
-          <div className="w-full gap-3 grid grid-cols-1 md:grid-cols-2">
-            {previewImages.map((img) => {
-              return (
-                <Image
-                  src={img}
-                  key={img}
-                  alt={img}
-                  width={300}
-                  height={200}
-                  className="border rounded-md shadow-sm"
-                />
-              );
-            })}
+        {previewImages.length > 0 && (
+          <div className="flex flex-col justify-start items-start gap-2 w-full py-3 border-b">
+            <p>Selected Images</p>
+            <div className="w-full gap-3 grid grid-cols-1 md:grid-cols-2">
+              {previewImages.map((img) => {
+                return (
+                  <Image
+                    src={img}
+                    key={img}
+                    alt={img}
+                    width={300}
+                    height={200}
+                    className="border rounded-md shadow-sm"
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {images.length === 0 ? (
+          ""
+        ) : (
+          <button
+            disabled={isLoading}
+            type="submit"
+            className="bg-blue-400 rounded-md px-4 py-2 transition duration-150 ease-in-out hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700"
+          >
+            {isLoading ? "Uploading..." : "Upload Images"}
+          </button>
+        )}
+      </form>
+
       {uploadedImages.length > 0 && (
         <div className="flex flex-col justify-start items-start gap-2 w-full py-3 border-b">
           <p>Room Images</p>
@@ -108,8 +140,14 @@ const UploadImageForm = ({ room }: UploadImageFormProps) => {
                       className="border rounded-md shadow-sm"
                     />
                   </div>
-                  <button className="px-4 py-2 rounded-md bg-brand text-white hover:bg-red-900 transition duration-150 ease-in-out">
-                    Remove
+                  <button
+                    disabled={isLoadingDelete}
+                    onClick={() => handleDeleteImage(img?.public_id)}
+                    className="px-4 py-2 rounded-md bg-brand text-white hover:bg-red-900 transition duration-150 ease-in-out"
+                  >
+                    {imageId === img?.public_id && isLoadingDelete
+                      ? "Deleting..."
+                      : "Remove"}
                   </button>
                 </div>
               );
