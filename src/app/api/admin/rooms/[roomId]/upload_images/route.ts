@@ -1,7 +1,9 @@
+import connectDB from "@/config/connectDB";
 import { deleteImage, uploadImage } from "@/lib/cloudinary";
 import Room, { RoomDocument } from "@/models/roomModel";
 import { NextRequest, NextResponse } from "next/server";
 
+connectDB();
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { roomId: string } }

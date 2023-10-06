@@ -8,14 +8,19 @@ interface RoomPageProps {
   };
 }
 
-export const revalidate = 120;
-
 const getRoomData = async (roomId: string) => {
   try {
-    const response = await axios.get(
-      `${process.env.SITE_URL}/api/rooms/${roomId}`
+    const response = await fetch(
+      `${process.env.SITE_URL}/api/rooms/${roomId}`,
+      {
+        next: {
+          tags: ["roomDetails"],
+          revalidate: 60,
+        },
+      }
     );
-    return response.data;
+    const data = await response.json();
+    return data;
   } catch (error: any) {
     console.log(error.response.data.message);
   }
@@ -39,6 +44,8 @@ export async function generateMetadata({ params: { roomId } }: RoomPageProps) {
 
 const RoomPage = async ({ params: { roomId } }: RoomPageProps) => {
   const roomData = await getRoomData(roomId);
+  console.log(roomData);
+
   const room: RoomDocument = roomData?.room;
   console.log(room);
   if (!room) {

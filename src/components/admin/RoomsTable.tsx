@@ -6,6 +6,7 @@ import { AiOutlineEdit, AiOutlineFileImage } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface RoomsTableProps {
   rooms: RoomDocument[];
@@ -13,13 +14,17 @@ interface RoomsTableProps {
 
 const RoomsTable = ({ rooms }: RoomsTableProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [roomId, setRoomId] = useState("");
+  const router = useRouter();
   const handleDeleteRoom = async (roomId: string) => {
     try {
       setIsLoading(true);
+      setRoomId(roomId);
       const response = await axios.delete("/api/admin/rooms", {
         params: { roomId },
       });
       toast.success(response.data.message);
+      router.refresh();
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
@@ -89,9 +94,15 @@ const RoomsTable = ({ rooms }: RoomsTableProps) => {
                       </Link>
                       <button
                         onClick={() => handleDeleteRoom(room?._id)}
-                        className="px-2 text-xl py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out"
+                        className={`px-2 ${
+                          isLoading ? "text-sm" : "text-xl"
+                        } py-1 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out`}
                       >
-                        {isLoading ? "Deleting..." : <BsTrash />}
+                        {roomId === room?._id && isLoading ? (
+                          "Deleting..."
+                        ) : (
+                          <BsTrash />
+                        )}
                       </button>
                     </td>
                   </tr>
