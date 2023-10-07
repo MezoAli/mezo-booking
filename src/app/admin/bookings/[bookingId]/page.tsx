@@ -1,3 +1,4 @@
+import BookingDetails from "@/components/BookingDetails";
 import axios from "axios";
 import { notFound } from "next/navigation";
 
@@ -14,14 +15,15 @@ const getBookingData = async (bookingId: string) => {
   return response?.data;
 };
 
-const UpdateRoomPage = async ({ params }: UpdateRoomPageProps) => {
+const BookingPage = async ({ params }: UpdateRoomPageProps) => {
   const bookingData = await getBookingData(params?.bookingId);
+  console.log(bookingData);
 
-  //   if (!bookingData?.booking) {
-  //     notFound();
-  //   }
+  if (!bookingData?.booking) {
+    notFound();
+  }
 
-  return <div>{params.bookingId}</div>;
+  return <BookingDetails booking={bookingData?.booking} />;
 };
 
-export default UpdateRoomPage;
+export default BookingPage;
