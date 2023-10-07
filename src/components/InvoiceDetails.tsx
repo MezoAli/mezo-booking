@@ -77,7 +77,7 @@ const InvoiceDetails = ({ booking }: InvoiceProps) => {
 
                 <div>
                   <span>Status : </span>
-                  {booking?.paymentInfo?.status === "paid"
+                  {booking?.paymentInfo?.status === "paid" || "success"
                     ? "Paid"
                     : "Not Paid"}
                 </div>
