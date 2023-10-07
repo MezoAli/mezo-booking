@@ -1,15 +1,37 @@
 "use client";
 import { IBooking } from "@/models/bookingModel";
 import Link from "next/link";
+import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { AiOutlineEye } from "react-icons/ai";
 import { HiOutlineDocument } from "react-icons/hi";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface MyBookingsTableProps {
   bookings: IBooking[];
 }
 
 const AdminBookingsTable = ({ bookings }: MyBookingsTableProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [bookingId, setBookingId] = useState("");
+  const router = useRouter();
+  const handleDeleteBooking = async (bookingId: string) => {
+    try {
+      setIsLoading(true);
+      setBookingId(bookingId);
+      const response = await axios.delete("/api/admin/bookings", {
+        params: { bookingId },
+      });
+      toast.success(response.data.message);
+      router.refresh();
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col gap-4 justify-start items-start">
       <h2 className="text-xl font-semibold">{bookings.length} Bookings</h2>
@@ -79,8 +101,15 @@ const AdminBookingsTable = ({ bookings }: MyBookingsTableProps) => {
                       >
                         <HiOutlineDocument />
                       </Link>
-                      <button className="px-4 py-2 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out">
-                        <BsTrash />
+                      <button
+                        onClick={() => handleDeleteBooking(item._id)}
+                        className="px-4 py-2 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out"
+                      >
+                        {bookingId === item._id && isLoading ? (
+                          "Deleting..."
+                        ) : (
+                          <BsTrash />
+                        )}
                       </button>
                     </td>
                   </tr>
