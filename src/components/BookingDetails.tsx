@@ -75,39 +75,55 @@ const BookingDetails = ({ booking }: BookingDetailsProps) => {
                   </b>
                 </td>
               </tr>
+              <tr>
+                <th scope="row">Stripe Id:</th>
+                <td>
+                  <b className={isPaid ? "text-green-600" : "text-red-600"}>
+                    {booking?.paymentInfo?.id}
+                  </b>
+                </td>
+              </tr>
             </tbody>
           </table>
 
-          <h4 className="mt-5 mb-4 font-lg font-semibold">Booked Room:</h4>
+          {booking.room ? (
+            <>
+              {" "}
+              <h4 className="mt-5 mb-4 font-lg font-semibold">Booked Room:</h4>
+              <hr />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-5 w-full">
+                <div className="flex flex-col gap-2">
+                  <div>
+                    <Image
+                      src={booking?.room?.images[0]?.url}
+                      alt={booking?.room?.name}
+                      height="45"
+                      width="65"
+                      className="rounded-md"
+                    />
+                  </div>
 
-          <hr />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-5 w-full">
-            <div className="flex flex-col gap-2">
-              <div>
-                <Image
-                  src={booking?.room?.images[0]?.url}
-                  alt={booking?.room?.name}
-                  height="45"
-                  width="65"
-                  className="rounded-md"
-                />
+                  <div className="hover:underline text-blue-600">
+                    <Link href={`/rooms/${booking?.room?._id}`}>
+                      {booking?.room?.name}
+                    </Link>
+                  </div>
+                </div>
+
+                <div>
+                  <p>${booking?.room?.pricePerNight} / per Night</p>
+                </div>
+
+                <div>
+                  <p>{booking?.daysOfStay} Day(s)</p>
+                </div>
               </div>
-
-              <div className="hover:underline text-blue-600">
-                <Link href={`/rooms/${booking?.room?._id}`}>
-                  {booking?.room?.name}
-                </Link>
-              </div>
-            </div>
-
-            <div>
-              <p>${booking?.room?.pricePerNight} / per Night</p>
-            </div>
-
-            <div>
-              <p>{booking?.daysOfStay} Day(s)</p>
-            </div>
-          </div>
+            </>
+          ) : (
+            <h4 className="w-full bg-red-300 text-white rounded-md text-xl font-semibold">
+              Room Is No Longer Available
+            </h4>
+          )}
           <hr />
         </div>
       </div>
