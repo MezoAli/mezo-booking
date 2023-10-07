@@ -15,14 +15,14 @@ interface AdminUsersTableProps {
 
 const AdminUsersTable = ({ users }: AdminUsersTableProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [bookingId, setBookingId] = useState("");
+  const [userId, setUserId] = useState("");
   const router = useRouter();
-  const handleDeleteBooking = async (bookingId: string) => {
+  const handleDeleteUser = async (userId: string) => {
     try {
       setIsLoading(true);
-      setBookingId(bookingId);
-      const response = await axios.delete("/api/admin/bookings", {
-        params: { bookingId },
+      setUserId(userId);
+      const response = await axios.delete("/api/admin/users", {
+        params: { userId },
       });
       toast.success(response.data.message);
       router.refresh();
@@ -42,7 +42,7 @@ const AdminUsersTable = ({ users }: AdminUsersTableProps) => {
           </p>
         )}
         {users.length > 0 && (
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <table className="w-full overflow-x-auto text-sm text-left text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -93,10 +93,10 @@ const AdminUsersTable = ({ users }: AdminUsersTableProps) => {
                         <HiOutlineDocument />
                       </Link>
                       <button
-                        onClick={() => handleDeleteBooking(item._id)}
+                        onClick={() => handleDeleteUser(item._id)}
                         className="px-4 py-2 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out"
                       >
-                        {bookingId === item._id && isLoading ? (
+                        {userId === item._id && isLoading ? (
                           "Deleting..."
                         ) : (
                           <BsTrash />

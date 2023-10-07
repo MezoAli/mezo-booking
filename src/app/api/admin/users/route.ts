@@ -20,3 +20,22 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await getServerSession(OPTIONS);
+    if (session?.user?.role !== "admin") {
+      throw new Error("Only Admin Can Show This Route");
+    }
+    const userId = req.nextUrl.searchParams.get("userId");
+
+    await User.findByIdAndDelete(userId);
+
+    return NextResponse.json(
+      { message: "User Deleted Successfully" },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message }, { status: 500 });
+  }
+}
