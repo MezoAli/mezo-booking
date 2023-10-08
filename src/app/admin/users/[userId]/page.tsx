@@ -1,3 +1,4 @@
+import UpdateUserForm from "@/components/admin/UpdateUserForm";
 import axios from "axios";
 import { notFound } from "next/navigation";
 
@@ -22,7 +23,7 @@ const UserPage = async ({ params }: UserPageProps) => {
     notFound();
   }
 
-  return <div>{params.userId}</div>;
+  return <UpdateUserForm user={userData?.user} />;
 };
 
 export default UserPage;
