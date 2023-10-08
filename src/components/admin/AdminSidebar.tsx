@@ -39,7 +39,7 @@ const AdminSidebar = () => {
     <aside className="w-full h-auto md:h-[60vh]" aria-label="Sidebar">
       <ul className="font-medium py-5 flex md:flex-col gap-2 md:gap-4 flex-wrap md:flex-nowrap justify-center items-center px-2 bg-white/30 backdrop-blur-sm">
         {menuItems.map((item) => {
-          const active = pathname === item.path;
+          const active = pathname === item.path || pathname.includes(item.path);
           return (
             <li
               key={item.name}

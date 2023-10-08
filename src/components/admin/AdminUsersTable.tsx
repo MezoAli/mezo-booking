@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
-import { AiOutlineEye } from "react-icons/ai";
-import { HiOutlineDocument } from "react-icons/hi";
+import { AiOutlineEdit } from "react-icons/ai";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -81,17 +80,12 @@ const AdminUsersTable = ({ users }: AdminUsersTableProps) => {
                     <td className="px-6 py-4">{item.role}</td>
                     <td className="px-6 py-4 flex justify-between gap-3 items-center">
                       <Link
-                        href={`/admin/bookings/${item._id}`}
+                        href={`/admin/users/${item._id}`}
                         className="px-4 py-2 bg-green-600 rounded-md text-white hover:bg-green-900 transition duration-150 ease-in-out"
                       >
-                        <AiOutlineEye />
+                        <AiOutlineEdit />
                       </Link>
-                      <Link
-                        href={`/admin/bookings/${item._id}/invoice`}
-                        className="px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out"
-                      >
-                        <HiOutlineDocument />
-                      </Link>
+
                       <button
                         onClick={() => handleDeleteUser(item._id)}
                         className="px-4 py-2 bg-brand rounded-md text-white hover:bg-red-900 transition duration-150 ease-in-out"
