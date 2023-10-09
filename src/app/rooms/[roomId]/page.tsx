@@ -15,7 +15,7 @@ const getRoomData = async (roomId: string) => {
       {
         next: {
           tags: ["roomDetails"],
-          revalidate: 60,
+          revalidate: 0,
         },
       }
     );
