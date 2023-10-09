@@ -2,7 +2,6 @@ import AdminUsersTable from "@/components/admin/AdminUsersTable";
 import { setHeadersToken } from "@/lib/setHeadersToken";
 import axios from "axios";
 
-
 const getUsers = async () => {
   try {
     const headers = setHeadersToken();
@@ -20,7 +19,6 @@ const getUsers = async () => {
 
 const AdminUsersPage = async () => {
   const data = await getUsers();
-  console.log(data);
 
   return <AdminUsersTable users={data?.users} />;
 };

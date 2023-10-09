@@ -2,7 +2,11 @@
 import { RoomDocument } from "@/models/roomModel";
 import axios from "axios";
 import Link from "next/link";
-import { AiOutlineEdit, AiOutlineFileImage } from "react-icons/ai";
+import {
+  AiOutlineEdit,
+  AiOutlineFileImage,
+  AiOutlineStar,
+} from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -91,6 +95,12 @@ const RoomsTable = ({ rooms }: RoomsTableProps) => {
                         className="px-2 py-1 text-xl bg-blue-600 rounded-md text-white hover:bg-blue-900 transition duration-150 ease-in-out"
                       >
                         <AiOutlineFileImage />
+                      </Link>
+                      <Link
+                        href={`/admin/rooms/${room?._id}/reviews`}
+                        className="px-2 py-1 text-xl bg-yellow-600 rounded-md text-white hover:bg-yellow-900 transition duration-150 ease-in-out"
+                      >
+                        <AiOutlineStar />
                       </Link>
                       <button
                         onClick={() => handleDeleteRoom(room?._id)}

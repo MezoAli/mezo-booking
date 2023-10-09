@@ -3,7 +3,6 @@ import { RxDashboard } from "react-icons/rx";
 import { BsFillBuildingFill } from "react-icons/bs";
 import { TbBrandBooking } from "react-icons/tb";
 import { AiOutlineUser } from "react-icons/ai";
-import { MdOutlineRateReview } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 const AdminSidebar = () => {
@@ -28,11 +27,6 @@ const AdminSidebar = () => {
       name: "Users",
       path: "/admin/users",
       icon: <AiOutlineUser />,
-    },
-    {
-      name: "Reviews",
-      path: "/admin/reviews",
-      icon: <MdOutlineRateReview />,
     },
   ];
   return (

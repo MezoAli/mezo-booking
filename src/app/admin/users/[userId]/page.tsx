@@ -17,7 +17,6 @@ const getUserData = async (userId: string) => {
 
 const UserPage = async ({ params }: UserPageProps) => {
   const userData = await getUserData(params?.userId);
-  console.log(userData);
 
   if (!userData?.user) {
     notFound();

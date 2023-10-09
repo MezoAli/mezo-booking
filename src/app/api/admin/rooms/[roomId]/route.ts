@@ -1,5 +1,5 @@
 import connectDB from "@/config/connectDB";
-import Room from "@/models/roomModel";
+import Room, { RoomDocument } from "@/models/roomModel";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 connectDB();
@@ -9,7 +9,7 @@ export async function GET(
   { params }: { params: { roomId: string } }
 ) {
   try {
-    const room = await Room.findById(params.roomId);
+    const room = await Room.findById(params.roomId).populate("reviews.user");
 
     if (!room) {
       throw new Error("No Room Found");
