@@ -8,6 +8,8 @@ interface RoomPageProps {
   };
 }
 
+export const dynamic = "force-dynamic";
+
 const getRoomData = async (roomId: string) => {
   try {
     const response = await fetch(
@@ -15,7 +17,6 @@ const getRoomData = async (roomId: string) => {
       {
         next: {
           tags: ["roomDetails"],
-          revalidate: 0,
         },
       }
     );

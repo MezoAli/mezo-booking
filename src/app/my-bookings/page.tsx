@@ -4,6 +4,8 @@ import axios from "axios";
 import PaddingContainer from "@/components/PaddingContainer";
 import MyBookingsTable from "@/components/MyBookingsTable";
 
+export const dynamic = "force-dynamic";
+
 const getUserBookings = async (userId: string) => {
   const response = await axios.get(`${process.env.SITE_URL}/api/booking/me`, {
     params: { userId },

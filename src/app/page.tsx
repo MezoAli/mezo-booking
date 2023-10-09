@@ -14,7 +14,6 @@ interface HomePageProps {
   };
 }
 
-export const revalidate = 120;
 export const dynamic = "force-dynamic";
 
 const getAllRooms = async (

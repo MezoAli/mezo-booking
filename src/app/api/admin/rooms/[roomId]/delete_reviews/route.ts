@@ -1,6 +1,7 @@
 import { OPTIONS } from "@/app/api/auth/[...nextauth]/route";
 import Room, { IReview, RoomDocument } from "@/models/roomModel";
 import { getServerSession } from "next-auth";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -27,7 +28,7 @@ export async function PATCH(
     const ratings =
       numOfReviews === 0
         ? 0
-        : room?.reviews.reduce(
+        : roomReviews.reduce(
             (acc: number, item: { rating: number }) => item.rating + acc,
             0
           ) / numOfReviews;
@@ -38,6 +39,7 @@ export async function PATCH(
       ratings,
     });
 
+    revalidateTag("roomDetails");
     return NextResponse.json({ message: "Review Deleted Successfully" });
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
