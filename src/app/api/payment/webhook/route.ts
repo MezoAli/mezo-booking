@@ -3,6 +3,7 @@ import Booking from "@/models/bookingModel";
 import Room, { RoomDocument } from "@/models/roomModel";
 import User from "@/models/userModel";
 import { User as UserType } from "@/types/userType";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -49,6 +50,8 @@ export async function POST(req: NextRequest) {
         daysOfStay,
         paymentInfo,
       });
+
+      revalidatePath("/my-bookings");
 
       return NextResponse.json(
         { message: "Booking Created Successfully", booking },
